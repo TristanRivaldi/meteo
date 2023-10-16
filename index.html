@@ -20,6 +20,14 @@
     </table>
 
     <script>
+        // Fonction pour formater la date
+        function formatDate(apiDate) {
+            const date = new Date(apiDate);
+            const options = { weekday: 'long', year: 'numeric', month: 
+'long', day: 'numeric' };
+            return date.toLocaleDateString('fr-FR', options);
+        }
+
         
 fetch("https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,cloudcover,windspeed_10m")
             .then(response => response.json())
@@ -28,8 +36,8 @@ fetch("https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.87
 
                 data.forEach(entry => {
                     const row = table.insertRow();
-                    row.insertCell(0).textContent = entry.time; // Insérez 
-la date du jour ici
+                    row.insertCell(0).textContent = 
+formatDate(entry.time);
                     row.insertCell(1).textContent = entry.temperature_2m;
                     row.insertCell(2).textContent = entry.precipitation;
                     row.insertCell(3).textContent = entry.cloudcover;
