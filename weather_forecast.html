@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prévisions Météo</title>
+</head>
+<body>
+    <h1>Prévisions Météo pour Montpellier</h1>
+
+    <!-- Créez un tableau pour afficher les données -->
+    <table>
+        <tr>
+            <th>Jour</th>
+            <th>Température Maximale (°C)</th>
+            <th>Température Minimale (°C)</th>
+            <th>Moyenne du Vent (km/h)</th>
+            <th>Précipitations (mm)</th>
+        </tr>
+        <!-- Utilisez JavaScript pour incorporer les données depuis le 
+fichier JSON -->
+        <script>
+            // Chargez les données depuis le fichier JSON
+            fetch('weather_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Accédez aux données horaires de température, vent 
+et précipitations
+                    const temperatures = data.hourly.temperature_2m;
+                    const windSpeed = data.hourly.windspeed_10m;
+                    const precipitation = data.hourly.precipitation;
+                    
+                    // Divisez les données en groupes de 24 heures (pour 
+chaque jour)
+                    const days = Array.from({ length: temperatures.length 
+/ 24 }, (_, i) => i);
+                    
+                    // Pour chaque jour, calculez les valeurs requises
+                    days.forEach(day => {
+                        const start = day * 24;
+                        const end = (day + 1) * 24;
+                        
+                        const maxTemp = 
+Math.max(...temperatures.slice(start, end));
+                        const minTemp = 
+Math.min(...temperatures.slice(start, end));
+                        const avgWindSpeed = windSpeed.slice(start, 
+end).reduce((a, b) => a + b, 0) / 24;
+                        const totalPrecipitation = 
+precipitation.slice(start, end).reduce((a, b) => a + b, 0);
+                        
+                        // Créez une nouvelle ligne dans le tableau pour 
+chaque jour
+                        const table = document.querySelector('table');
+                        const row = table.insertRow(-1);
+                        const cellDay = row.insertCell(0);
+                        const cellMaxTemp = row.insertCell(1);
+                        const cellMinTemp = row.insertCell(2);
+                        const cellAvgWind = row.insertCell(3);
+                        const cellPrecipitation = row.insertCell(4);
+                        
+                        cellDay.innerHTML = `Jour ${day + 1}`;
+                        cellMaxTemp.innerHTML = maxTemp.toFixed(1);
+                        cellMinTemp.innerHTML = minTemp.toFixed(1);
+                        cellAvgWind.innerHTML = avgWindSpeed.toFixed(1);
+                        cellPrecipitation.innerHTML = 
+totalPrecipitation.toFixed(1);
+                    });
+                });
+        </script>
+    </table>
+</body>
+</html>
+
