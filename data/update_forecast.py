@@ -2,8 +2,7 @@ import requests
 import json
 
 # L'URL de l'API
-url = 
-"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m"
+url = "https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m"
 
 # Faites une requête vers l'API
 response = requests.get(url)
