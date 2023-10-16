@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prévisions météo pour Montpellier</title>
+</head>
+<body>
+    <h1>Prévisions météo pour Montpellier</h1>
+
+    <table id="meteo-table">
+        <tr>
+            <th>Jour</th>
+            <th>Température (°C)</th>
+            <th>Précipitation (mm)</th>
+            <th>Cloud Cover (%)</th>
+            <th>Vitesse du vent (m/s)</th>
+        </tr>
+        <!-- Les données de l'API seront insérées ici -->
+    </table>
+
+    <script>
+        
+fetch("https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,cloudcover,windspeed_10m")
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById("meteo-table");
+
+                data.forEach(entry => {
+                    const row = table.insertRow();
+                    row.insertCell(0).textContent = entry.time; // Insérez 
+la date du jour ici
+                    row.insertCell(1).textContent = entry.temperature_2m;
+                    row.insertCell(2).textContent = entry.precipitation;
+                    row.insertCell(3).textContent = entry.cloudcover;
+                    row.insertCell(4).textContent = entry.windspeed_10m;
+                });
+            })
+            .catch(error => {
+                console.error("Erreur lors de la récupération des données 
+météorologiques : " + error);
+            });
+    </script>
+</body>
+</html>
+
