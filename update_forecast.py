@@ -32,6 +32,9 @@ if response.status_code == 200:
     # Renommez les colonnes pour plus de clarté
     daily_data.columns = ['Température Maximale (°C)', 'Température Minimale (°C)', 'Moyenne du Vent (km/h)', 'Précipitations (mm)']
 
+    # Convertissez les horodatages Unix en millisecondes en dates (jours)
+    daily_data.index = daily_data.index.map(lambda x: x.strftime('%Y-%m-%d'))
+
     # Enregistrez les données agrégées dans un fichier JSON
     daily_data.to_json('weather_data.json', orient='index')
 else:
