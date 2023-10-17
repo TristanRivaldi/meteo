@@ -31,8 +31,7 @@ if response.status_code == 200:
     })
 
     # Renommez les colonnes pour plus de clarté
-    daily_data.columns = ['Température Maximale (°C)', 'Température 
-Minimale (°C)', 'Moyenne du Vent (km/h)', 'Précipitations (mm)']
+    daily_data.columns = ['Température Maximale (°C)', 'Température Minimale (°C)', 'Moyenne du Vent (km/h)', 'Précipitations (mm)']
 
     # Enregistrez les données agrégées dans un fichier JSON
     daily_data.to_json('weather_data.json', orient='index')
