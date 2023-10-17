@@ -23,27 +23,36 @@
 
     <script>
         // Charger les données depuis weather_data.json
-        fetch('weather_data.json')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector('#weather-table tbody');
+        function loadWeatherData() {
+            fetch('weather_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.querySelector('#weather-table tbody');
+                    tableBody.innerHTML = ''; // Effacer le contenu actuel
 
-                // Parcourir les données et les insérer dans le tableau
-                for (const date in data) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${date}</td>
-                        <td>${data[date]['Température Maximale (°C)']}</td>
-                        <td>${data[date]['Température Minimale (°C)']}</td>
-                        <td>${data[date]['Moyenne du Vent (km/h)']}</td>
-                        <td>${data[date]['Précipitations (mm)']}</td>
-                    `;
-                    tableBody.appendChild(row);
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors du chargement des données :', error);
-            });
+                    // Parcourir les données et les insérer dans le tableau
+                    for (const date in data) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${date}</td>
+                            <td>${data[date]['Température Maximale (°C)']}</td>
+                            <td>${data[date]['Température Minimale (°C)']}</td>
+                            <td>${data[date]['Moyenne du Vent (km/h)']}</td>
+                            <td>${data[date]['Précipitations (mm)']}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des données :', error);
+                });
+        }
+
+        // Appeler loadWeatherData au chargement de la page
+        loadWeatherData();
+
+        // Rafraîchir automatiquement les données toutes les 12 heures
+        setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en millisecondes
     </script>
 </body>
 </html>
