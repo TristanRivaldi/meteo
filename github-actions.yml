@@ -1,7 +1,7 @@
 name: Update Weather Data
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Exécute toutes les 6 heures (ajustez 
+    - cron: '0 */12 * * *'  # Exécute toutes les 12 heures (ajustez 
 l'horloge selon vos besoins)
 
 jobs:
@@ -21,4 +21,14 @@ jobs:
 
       - name: Run script
         run: python update_forecast.py
+
+      - name: Push updates to repository
+        run: |
+          git config --global user.email "rivaldi.tristan@orange.fr"
+          git config --global user.name "TristanRivaldi"
+          git add data/weather_data.json
+          git commit -m "Update weather data"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.JUDO }}
 
