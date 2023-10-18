@@ -33,6 +33,11 @@ jobs:
       - name: Check SSH_AUTH_SOCK
         run: echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
 
+      - name: Copy SSH key
+        run: cp id_rsa ~/.ssh/
+        env:
+          SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
+
       - name: Add SSH Key
         run: ssh-add ~/.ssh/id_rsa  # Ajoutez cette étape pour ajouter votre clé SSH
         env:
