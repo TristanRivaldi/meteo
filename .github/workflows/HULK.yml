@@ -26,8 +26,8 @@ jobs:
 
       - name: Push updates to repository
         run: |
-          git config --global user.email "rivaldi.tristan@orange.fr"
-          git config --global user.name "TristanRivaldi"
+          git config --global user.email "votre.email@example.com"
+          git config --global user.name "Votre Nom"
           git add weather_data.json
           git commit -m "Mise à jour des données météo"
           GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
