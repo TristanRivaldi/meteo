@@ -1,8 +1,7 @@
 name: Update Weather Data
 on:
   schedule:
-    - cron: '0 */1 * * *'  # Exécute toutes les 1 heures (ajustez 
-l'horloge selon vos besoins)
+    - cron: '0 */1 * * *'  # Exécute toutes les 1 heures 
 jobs:
   update:
     runs-on: ubuntu-latest
