@@ -1,44 +1,46 @@
-name: Every 10 Minutes Workflow
+- name: Every 10 Minutes Workflow
+  on:
+    schedule:
+      - cron: '*/10 * * * *'  # Exécute toutes les 10 minutes
+  jobs:
+    update:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
 
-on:
-  schedule:
-    - cron: '*/10 * * * *'  # Exécute toutes les 10 minutes
+        - name: Set up Python
+          uses: actions/setup-python@v2.3.3
+          with:
+            python-version: 3.x
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+        - name: Install dependencies
+          run: |
+            pip install requests
+            pip install pandas  # Installer le module "pandas"
 
-      - name: Set up Python
-        uses: actions/setup-python@v2.3.3
-        with:
-          python-version: 3.x
+        - name: Run script
+          run: python update_forecast.py
 
-      - name: Install dependencies
-        run: |
-          pip install requests
-          pip install pandas  # Installer le module "pandas"
+        - name: Start SSH Agent
+          run: eval $(ssh-agent -s)
 
-      - name: Run script
-        run: python update_forecast.py
+        - name: Set SSH_AUTH_SOCK
+          run: echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
 
-      - name: Start SSH Agent
-        run: eval $(ssh-agent -s)
+        - name: Check SSH_AUTH_SOCK
+          run: echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
 
-      - name: Set SSH_AUTH_SOCK
-        run: echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+        - name: Add SSH Key
+          run: ssh-add ~/.ssh/id_rsa  # Ajoutez cette étape pour ajouter votre clé SSH
+          env:
+            SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
 
-      - name: Add SSH Key
-        run: ssh-add ~/.ssh/id_rsa  # Ajoutez cette étape pour ajouter votre clé SSH
-        env:
-          SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
+        - name: Push updates to repository
+          run: |
+            git config --global user.email "rivaldi.tristan@orange.fr"
+            git config --global user.name "TristanRivaldi"
+            git add weather_data.json
+            git commit -m "Mise à jour des données météo"
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
 
-      - name: Push updates to repository
-        run: |
-          git config --global user.email "rivaldi.tristan@orange.fr"
-          git config --global user.name "TristanRivaldi"
-          git add weather_data.json
-          git commit -m "Mise à jour des données météo"
-          GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
