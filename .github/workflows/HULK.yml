@@ -1,8 +1,8 @@
-name: Hourly Workflow
+name: Every 10 Minutes Workflow
 
 on:
   schedule:
-   - cron: '*/10 * * * *'  # Exécute toutes les heures
+    - cron: '*/10 * * * *'  # Exécute toutes les 10 minutes
 
 jobs:
   update:
@@ -36,4 +36,3 @@ jobs:
           git add weather_data.json
           git commit -m "Mise à jour des données météo"
           GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
-
