@@ -2,7 +2,7 @@ name: Hourly Workflow
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Exécute toutes les heures
+    - cron: '*/10 * * * *'  # Exécute toutes les heures
 
 jobs:
   update:
@@ -24,14 +24,16 @@ jobs:
       - name: Run script
         run: python update_forecast.py
 
+      - name: Add SSH Key
+        run: ssh-add ~/.ssh/id_rsa  # Ajoutez cette étape pour ajouter votre clé SSH
+        env:
+          SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
+
       - name: Push updates to repository
         run: |
           git config --global user.email "rivaldi.tristan@orange.fr"
           git config --global user.name "TristanRivaldi"
-          ssh-add ~/.ssh/id_rsa  # Remplacez "id_rsa" par le nom de votre clé SSH privée
           git add weather_data.json
           git commit -m "Mise à jour des données météo"
           GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
-        env:
-          SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
 
