@@ -1,0 +1,32 @@
+name: Update Weather Data
+on:
+  schedule:
+    - cron: '0 */1 * * *'  # Exécute toutes les 1 heures (ajustez 
+l'horloge selon vos besoins)
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        run: python update_forecast.py
+
+      - name: Push updates to repository
+        run: |
+          git config --global user.email "rivaldi.tristan@orange.fr"
+          git config --global user.name "TristanRivaldi"
+          git add weather_data.json
+          git commit -m "Update weather data"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.JUDO }}
