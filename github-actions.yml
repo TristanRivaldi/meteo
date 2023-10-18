@@ -1,7 +1,7 @@
 name: Update Weather Data
 on:
   schedule:
-    - cron: '0 */12 * * *'  # Exécute toutes les 12 heures (ajustez 
+    - cron: '0 */1 * * *'  # Exécute toutes les 12 heures (ajustez 
 l'horloge selon vos besoins)
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
         run: |
           git config --global user.email "rivaldi.tristan@orange.fr"
           git config --global user.name "TristanRivaldi"
-          git add data/weather_data.json
+          git add weather_data.json
           git commit -m "Update weather data"
           git push
         env:
