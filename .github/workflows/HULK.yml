@@ -24,6 +24,12 @@ jobs:
       - name: Run script
         run: python update_forecast.py
 
+      - name: Start SSH Agent
+        run: eval $(ssh-agent -s)
+
+      - name: Set SSH_AUTH_SOCK
+        run: echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+
       - name: Add SSH Key
         run: ssh-add ~/.ssh/id_rsa  # Ajoutez cette étape pour ajouter votre clé SSH
         env:
