@@ -1,4 +1,4 @@
-- name: Every 10 Minutes Workflow
+ name: Every 10 Minutes Workflow
   on:
     schedule:
       - cron: '*/10 * * * *'  # Exécute toutes les 10 minutes
