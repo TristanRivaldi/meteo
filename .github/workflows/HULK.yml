@@ -17,7 +17,9 @@ jobs:
           python-version: 3.x
 
       - name: Install dependencies
-        run: pip install requests
+        run: |
+          pip install requests
+          pip install pandas  # Installer le module "pandas"
 
       - name: Run script
         run: python update_forecast.py
@@ -31,4 +33,5 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.JUDO }}
+
 
