@@ -6,6 +6,7 @@ on:
 
 jobs:
   update:
+    name: Every 10 Minutes Workflow  # Ajoutez le nom du job ici
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -31,3 +32,4 @@ jobs:
           git add weather_data.json
           git commit -m "Mise à jour des données météo"
           git push
+
