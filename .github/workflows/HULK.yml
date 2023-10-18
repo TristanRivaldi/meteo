@@ -28,10 +28,8 @@ jobs:
         run: |
           git config --global user.email "rivaldi.tristan@orange.fr"
           git config --global user.name "TristanRivaldi"
-          ssh-agent -s
-          ssh-add ~/.ssh/id_rsa  # Remplacez "id_rsa" par le nom de votre clé SSH privée
           git add weather_data.json
           git commit -m "Mise à jour des données météo"
-          git push
+          GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
         env:
           SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
