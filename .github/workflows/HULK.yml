@@ -1,0 +1,33 @@
+name: Hourly Workflow
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Exécute toutes les heures
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run script
+        run: python update_forecast.py
+
+      - name: Push updates to repository
+        run: |
+          git config --global user.email "rivaldi.tristan@orange.fr"
+          git config --global user.name "TristanRivaldi"
+          git add weather_data.json
+          git commit -m "Mise à jour des données météo"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.JUDO }}
