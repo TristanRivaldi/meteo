@@ -32,6 +32,9 @@ jobs:
         env:
           SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
 
+      - name: List contents of ~/.ssh
+        run: ls -l ~/.ssh
+
       - name: Push updates to repository
         run: |
           git config --global user.email "rivaldi.tristan@orange.fr"
