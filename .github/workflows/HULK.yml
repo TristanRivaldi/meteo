@@ -21,8 +21,11 @@ jobs:
       run: |
         python -m pip install requests
         python -m pip install pandas
-
+ 
+        
     - name: Vérifier le secret JUDO_TOKEN
+      env:
+          JUDO_TOKEN: ${{ secrets.JUDO_TOKEN }}
       run: echo ${{ secrets.JUDO_TOKEN }}
 
     - name: Set Git user configuration
