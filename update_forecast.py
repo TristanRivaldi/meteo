@@ -53,7 +53,7 @@ if response.status_code == 200:
     os.system("git add weather_data.json")
     os.system("git commit -m 'Mise à jour des données météorologiques'")
     os.system("git push origin main")
-    else:
+else:
         print("La requête vers l'API a échoué.")
 
 
