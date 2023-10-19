@@ -2,7 +2,7 @@ name: Update Weather Forecast
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "*/10 * * * *"
 
 jobs:
   update-forecast:
@@ -21,6 +21,9 @@ jobs:
       run: |
         python -m pip install requests
         python -m pip install pandas
+
+    - name: Vérifier le secret JUDO_TOKEN
+      run: echo ${{ secrets.JUDO_TOKEN }}
 
     - name: Set Git user configuration
       run: |
