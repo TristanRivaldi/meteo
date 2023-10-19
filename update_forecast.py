@@ -1,6 +1,18 @@
 import requests
 import json
 import pandas as pd
+import os
+import subprocess
+
+# Définissez les informations d'identification Git ici
+git_email = "rivaldi.tristan@orange.fr"
+git_name = "TristanRivaldi"
+
+# Configurez Git avec les informations d'identification
+os.system(f"git config --global user.email '{git_email}'")
+os.system(f"git config --global user.name '{git_name}'")
+
+
 
 # L'URL de l'API
 url = "https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m"
@@ -37,6 +49,12 @@ if response.status_code == 200:
 
     # Enregistrez les données agrégées dans un fichier JSON
     daily_data.to_json('weather_data.json', orient='index')
-else:
-    print("La requête vers l'API a échoué.")
+    # Utilisez Git pour ajouter, confirmer et pousser les modifications
+    os.system("git add weather_data.json")
+    os.system("git commit -m 'Mise à jour des données météorologiques'")
+    os.system("git push origin main")
+    else:
+        print("La requête vers l'API a échoué.")
+
+
 
