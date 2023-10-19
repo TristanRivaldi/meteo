@@ -28,7 +28,7 @@ jobs:
       - name: Configure SSH key
         run: |
           eval $(ssh-agent -s)
-          ssh-add $HOME/.ssh/id_rsa  # Assurez-vous d'utiliser le chemin correct
+          ssh-add /home/runner/.ssh/id_rsa
         env:
           SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
 
@@ -38,5 +38,4 @@ jobs:
           git config --global user.name "TristanRivaldi"
           git add weather_data.json
           git commit -m "Mise à jour des données météo"
-          GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
-
+          GIT_SSH_COMMAND="ssh -i /home/runner/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
