@@ -15,7 +15,10 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # Assurez-vous de spécifier la version de Python que vous utilisez
+        python-version: 3.8  # Utilisez ici la version de Python compatible avec votre script
+
+    - name: Install requests module
+      run: python -m pip install requests
 
     - name: Run update_forecast.py
       run: python update_forecast.py
