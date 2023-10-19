@@ -1,44 +1,21 @@
-name: Every 10 Minutes Workflow
+name: Update Weather Forecast
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # Exécute toutes les 10 minutes
+    - cron: "*/10 * * * *"
 
 jobs:
-  update:
-    name: Every 10 Minutes Workflow
+  update-forecast:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Check out repository
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2.3.3
-        with:
-          python-version: 3.x
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x  # Assurez-vous de spécifier la version de Python que vous utilisez
 
-      - name: Install dependencies
-        run: |
-          pip install requests
-          pip install pandas  # Installer le module "pandas"
-
-      - name: Run script
-        run: python update_forecast.py
-
-      - name: Configure SSH key
-        run: |
-          eval $(ssh-agent -s)
-          ssh-add ~/Desktop/meteo/id_rsa
-        env:
-          SSH_AUTH_SOCK: ${{ runner.ssh_sock }}
-
-      - name: List contents of ~/.ssh
-        run: ls -l ~/.ssh
-
-      - name: Push updates to repository
-        run: |
-          git config --global user.email "rivaldi.tristan@orange.fr"
-          git config --global user.name "TristanRivaldi"
-          git add weather_data.json
-          git commit -m "Mise à jour des données météo"
-          GIT_SSH_COMMAND="ssh -i /home/runner/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push
+    - name: Run update_forecast.py
+      run: python update_forecast.py
