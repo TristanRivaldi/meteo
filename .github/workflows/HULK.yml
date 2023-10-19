@@ -22,9 +22,19 @@ jobs:
         python -m pip install requests
         python -m pip install pandas
 
-    - name: Run update_forecast.py
+    - name: Set Git user configuration
       run: |
         git config --global user.email "rivaldi.tristan@orange.fr"
         git config --global user.name "TristanRivaldi"
-        python update_forecast.py
+      # Ici, vous pouvez également utiliser le secret JUDO_TOKEN comme variable d'environnement
+      env:
+        JUDO_TOKEN: ${{ secrets.JUDO_TOKEN }}
 
+    - name: Run update_forecast.py
+      run: |
+        # Utilisez le secret JUDO_TOKEN dans votre script pour l'authentification Git
+        git config --global credential.helper 'store --file ~/.git-credentials'
+        git config --global user.email "rivaldi.tristan@orange.fr"
+        git config --global user.name "TristanRivaldi"
+        echo "https://github.com:$JUDO_TOKEN@github.com" > ~/.git-credentials
+        python update_forecast.py
