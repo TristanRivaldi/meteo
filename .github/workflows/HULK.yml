@@ -22,10 +22,9 @@ jobs:
         python -m pip install requests
         python -m pip install pandas
 
-    - name: Set up Git credentials
+    - name: Run update_forecast.py
       run: |
         git config --global user.email "rivaldi.tristan@orange.fr"
         git config --global user.name "TristanRivaldi"
+        python update_forecast.py
 
-    - name: Run update_forecast.py
-      run: python update_forecast.py
