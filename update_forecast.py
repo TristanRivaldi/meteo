@@ -4,21 +4,22 @@ import pandas as pd
 import os
 import subprocess
 
-# Définissez les informations d'identification Git ici
+# Lisez le jeton d'authentification depuis une variable d'environnement
+github_token = os.environ.get("TOKEN")
+
+# Configurez Git avec les informations d'identification
 git_email = "rivaldi.tristan@orange.fr"
 git_name = "TristanRivaldi"
 
-# Configurez Git avec les informations d'identification
 os.system(f"git config --global user.email '{git_email}'")
 os.system(f"git config --global user.name '{git_name}'")
-
-
 
 # L'URL de l'API
 url = "https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m"
 
-# Faites une requête vers l'API
-response = requests.get(url)
+# Faites une requête vers l'API en incluant le jeton d'authentification dans les en-têtes
+headers = {"Authorization": f"token {github_token}"}
+response = requests.get(url, headers=headers)
 
 # Vérifiez si la requête a réussi
 if response.status_code == 200:
@@ -54,7 +55,4 @@ if response.status_code == 200:
     os.system("git commit -m 'Mise à jour des données météorologiques'")
     os.system("git push origin main")
 else:
-        print("La requête vers l'API a échoué.")
-
-
-
+    print("La requête vers l'API a échoué.")
