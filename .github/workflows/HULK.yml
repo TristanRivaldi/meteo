@@ -1,26 +1,27 @@
-name: Mise à jour des données météorologiques
-
+name: Update Forecast
 on:
   schedule:
-    - cron: '*/5 * * * *' # Exécuter toutes les heures
+    - cron: '*/5 * * * *'  # Exécutez toutes les 5 minutes
 
 jobs:
-  update_weather:
+  update_forecast:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout du code
+    - name: Checkout du code source
       uses: actions/checkout@v2
 
-    - name: Exécution du script Python
-      run: python update_forecast.py
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
 
-    - name: Commit et pousser les modifications
+    - name: Configure Git
       run: |
-        git config user.email "rivaldi.tristan@orange.fr"
-        git config user.name "TristanRivaldi"
-        git add .
-        git commit -m 'Mise à jour des données météorologiques'
-        git push
-      env:
-        TOKEN: ${{ secrets.TOKEN }}
+        git config --global user.email "rivaldi.tristan@orange.fr"
+        git config --global user.name "TristanRivaldi"
+
+    - name: Exécutez le script update_forecast.py
+      run: |
+        python update_forecast.py
+
