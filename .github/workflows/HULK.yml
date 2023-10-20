@@ -1,46 +1,26 @@
-name: Update Weather Forecast
+name: Mise à jour des données météorologiques
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: '0 * * * *' # Exécuter toutes les heures
 
 jobs:
-  update-forecast:
+  update_weather:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out repository
+    - name: Checkout du code
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.11.4  # Remplacez par la version exacte de Python que vous utilisez
+    - name: Exécution du script Python
+      run: python update_forecast.py
 
-    - name: Install requests and pandas modules
+    - name: Commit et pousser les modifications
       run: |
-        python -m pip install requests
-        python -m pip install pandas
- 
-        
-    - name: Vérifier le secret TOKEN
-      env:
-          TOKEN: ${{ secrets.TOKEN }}
-      run: echo ${{ secrets.TOKEN }}
-
-    - name: Set Git user configuration
-      run: |
-        git config --global user.email "rivaldi.tristan@orange.fr"
-        git config --global user.name "TristanRivaldi"
-      # Ici, vous pouvez également utiliser le secret TOKEN comme variable d'environnement
+        git config user.email "rivaldi.tristan@orange.fr"
+        git config user.name "TristanRivaldi"
+        git add .
+        git commit -m 'Mise à jour des données météorologiques'
+        git push
       env:
         TOKEN: ${{ secrets.TOKEN }}
-
-    - name: Run update_forecast.py
-      run: |
-        # Utilisez le secret TOKEN dans votre script pour l'authentification Git
-        git config --global credential.helper 'store --file ~/.git-credentials'
-        git config --global user.email "rivaldi.tristan@orange.fr"
-        git config --global user.name "TristanRivaldi"
-        echo "https://github.com:$TOKEN@github.com" > ~/.git-credentials
-        python update_forecast.py
