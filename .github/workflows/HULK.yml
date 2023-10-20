@@ -2,7 +2,7 @@ name: Mise à jour des données météorologiques
 
 on:
   schedule:
-    - cron: '0 * * * *' # Exécuter toutes les heures
+    - cron: '*/5 * * * *' # Exécuter toutes les heures
 
 jobs:
   update_weather:
