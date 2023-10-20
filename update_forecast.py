@@ -7,6 +7,9 @@ import subprocess
 # Lisez le jeton d'authentification depuis une variable d'environnement
 github_token = os.environ.get("TOKEN")
 
+if github_token is None:
+    raise Exception("Le jeton d'authentification n'a pas été correctement récupéré depuis les secrets.")
+
 # Configurez Git avec les informations d'identification
 git_email = "rivaldi.tristan@orange.fr"
 git_name = "TristanRivaldi"
