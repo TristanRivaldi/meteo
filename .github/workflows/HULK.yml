@@ -1,7 +1,7 @@
 name: Update Forecast
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Exécutez toutes les 5 minutes
+    - cron: '0 * * * *'  # Exécutez toutes les 5 minutes
 
 jobs:
   update_forecast:
