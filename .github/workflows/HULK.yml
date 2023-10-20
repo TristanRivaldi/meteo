@@ -16,6 +16,11 @@ jobs:
       with:
         python-version: 3.x
 
+    - name: Install pandas and requests
+      run: |
+        pip install pandas requests
+      working-directory: ${{ github.workspace }}
+
     - name: Configure Git
       run: |
         git config --global user.email "rivaldi.tristan@orange.fr"
@@ -24,4 +29,3 @@ jobs:
     - name: Exécutez le script update_forecast.py
       run: |
         python update_forecast.py
-
