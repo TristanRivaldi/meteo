@@ -23,24 +23,24 @@ jobs:
         python -m pip install pandas
  
         
-    - name: Vérifier le secret JUDO_TOKEN
+    - name: Vérifier le secret TOKEN
       env:
-          JUDO_TOKEN: ${{ secrets.JUDO_TOKEN }}
-      run: echo ${{ secrets.JUDO_TOKEN }}
+          TOKEN: ${{ secrets.TOKEN }}
+      run: echo ${{ secrets.TOKEN }}
 
     - name: Set Git user configuration
       run: |
         git config --global user.email "rivaldi.tristan@orange.fr"
         git config --global user.name "TristanRivaldi"
-      # Ici, vous pouvez également utiliser le secret JUDO_TOKEN comme variable d'environnement
+      # Ici, vous pouvez également utiliser le secret TOKEN comme variable d'environnement
       env:
-        JUDO_TOKEN: ${{ secrets.JUDO_TOKEN }}
+        TOKEN: ${{ secrets.TOKEN }}
 
     - name: Run update_forecast.py
       run: |
-        # Utilisez le secret JUDO_TOKEN dans votre script pour l'authentification Git
+        # Utilisez le secret TOKEN dans votre script pour l'authentification Git
         git config --global credential.helper 'store --file ~/.git-credentials'
         git config --global user.email "rivaldi.tristan@orange.fr"
         git config --global user.name "TristanRivaldi"
-        echo "https://github.com:$JUDO_TOKEN@github.com" > ~/.git-credentials
+        echo "https://github.com:$TOKEN@github.com" > ~/.git-credentials
         python update_forecast.py
