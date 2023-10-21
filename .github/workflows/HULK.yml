@@ -8,6 +8,9 @@ jobs:
   update:
     runs-on: ubuntu-latest
 
+    env:  # Ajoutez cette section pour définir la variable d'environnement
+      GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
