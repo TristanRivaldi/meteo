@@ -2,7 +2,7 @@ name: Update Weather Data
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Exécuter tous les jours à minuit UTC
+    - cron: "*/5 * * * *"  # Exécuter tous les jours à minuit UTC
 
 jobs:
   update:
