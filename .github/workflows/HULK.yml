@@ -1,3 +1,4 @@
+---
 - name: Update Weather Data
   on:
     schedule:
