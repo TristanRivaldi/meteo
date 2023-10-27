@@ -4,12 +4,7 @@ import json
 import pandas as pd
 import subprocess
 
-# Récupérez le jeton d'accès GitHub depuis la variable d'environnement
-github_token = os.environ.get('GITHUB_TOKEN')
 
-# Configurez Git avec le jeton d'accès GitHub comme nom d'utilisateur
-if github_token:
-    os.system(f"git config --global credential.username '{github_token}'")
 
 # Configurez Git avec les informations d'identification
 git_email = "rivaldi.tristan@orange.fr"
