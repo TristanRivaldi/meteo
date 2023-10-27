@@ -1,108 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Prévisions Météo pour Montpellier</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
+  <title>Prévisions Météo pour Montpellier</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
 
-        th {
-            background-color: #333;
-            color: white;
-        }
-
-        .max-temp {
-            background-color: #FF5733; /* Couleur pour la température 
-maximale */
-            color: white;
-        }
-
-        .min-temp {
-            background-color: #3374FF; /* Couleur pour la température 
-minimale */
-            color: white;
-        }
-
-        .wind-avg {
-            background-color: #33FF57; /* Couleur pour la moyenne du vent 
-*/
-            color: white;
-        }
-
-        .precipitation {
-            background-color: #FFA833; /* Couleur pour les précipitations 
-*/
-            color: white;
-        }
-    </style>
+    th {
+      background-color: #333;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-    <h1>Prévisions Météo pour Montpellier</h1>
+  <h1>Prévisions Météo pour Montpellier</h1>
 
-    <table id="weather-table">
-        <thead>
-            <tr>
-                <th>Jour</th>
-                <th>Température Maximale (°C)</th>
-                <th>Température Minimale (°C)</th>
-                <th>Moyenne du Vent (km/h)</th>
-                <th>Précipitations (mm)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Les données seront insérées ici -->
-        </tbody>
-    </table>
+  <table id="weather-table">
+    <thead>
+      <tr>
+        <th>Jour</th>
+        <th>Température Maximale (°C)</th>
+        <th>Température Minimale (°C)</th>
+        <th>Moyenne du Vent (km/h)</th>
+        <th>Précipitations (mm)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Les données seront insérées ici -->
+    </tbody>
+  </table>
 
-    <script>
-        // Charger les données depuis weather_data.json
-        function loadWeatherData() {
-            fetch('weather_data.json')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = 
-document.querySelector('#weather-table tbody');
-                    tableBody.innerHTML = ''; // Effacer le contenu actuel
+  <script>
+    // Charger les données depuis weather_data.json
+    function loadWeatherData() {
+      fetch('weather_data.json')
+        .then(response => response.json())
+        .then(data => {
+          const tableBody = document.querySelector('#weather-table tbody');
+          tableBody.innerHTML = ''; // Effacer le contenu actuel
 
-                    // Parcourir les données et les insérer dans le 
-tableau
-                    for (const date in data) {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${date}</td>
-                            <td class="max-temp">${data[date]['Température 
-Maximale (°C)']}</td>
-                            <td class="min-temp">${data[date]['Température 
-Minimale (°C)']}</td>
-                            <td class="wind-avg">${data[date]['Moyenne du 
-Vent (km/h)']}</td>
-                            <td 
-class="precipitation">${data[date]['Précipitations (mm)']}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur lors du chargement des données 
-:', error);
-                });
-        }
+          // Parcourir les données et les insérer dans le tableau
+          for (const date in data) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${date}</td>
+              <td>${data[date]['Température Maximale (°C)']}</td>
+              <td>${data[date]['Température Minimale (°C)']}</td>
+              <td>${data[date]['Moyenne du Vent (km/h)']}</td>
+              <td>${data[date]['Précipitations (mm)']}</td>
+            `;
+            tableBody.appendChild(row);
+          }
+        })
+        .catch(error => {
+          console.error('Erreur lors du chargement des données :', error);
+        });
+    }
 
-        // Appeler loadWeatherData au chargement de la page
-        loadWeatherData();
+    // Appeler loadWeatherData au chargement de la page
+    loadWeatherData();
 
-        // Rafraîchir automatiquement les données toutes les 12 heures
-        setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en 
-millisecondes
-    </script>
+    // Rafraîchir automatiquement les données toutes les 12 heures
+    setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en millisecondes
+  </script>
 </body>
 </html>
 
