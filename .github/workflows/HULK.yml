@@ -1,32 +1,32 @@
-
 name: Update Weather Data
-  on:
-    schedule:
-      - cron: "*/10 * * * *"
 
-  jobs:
-    update:
-      runs-on: ubuntu-latest
+on:
+  schedule:
+    - cron: "*/10 * * * *"
 
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+jobs:
+  update:
+    runs-on: ubuntu-latest
 
-      steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    env:
+      GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: pip install pandas requests
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "rivaldi.tristan@orange.fr"
-          git config --global user.name "TristanRivaldi"
+    - name: Install dependencies
+      run: pip install pandas requests
 
-      - name: Run Python script to update data
-        run: python update_forecast.py
+    - name: Configure Git
+      run: |
+        git config --global user.email "votre-email@example.com"
+        git config --global user.name "Votre Nom"
+
+    - name: Run Python script to update data
+      run: python update_forecast.py
