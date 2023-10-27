@@ -8,9 +8,6 @@ jobs:
   update:
     runs-on: ubuntu-latest
 
-    env:
-      GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -29,4 +26,4 @@ jobs:
         git config --global user.name "TristanRivaldi"
 
     - name: Run Python script to update data
-      run: python update_forecast.py
+      run: python update_forecast.py je veux supprimer la partie sur les token
