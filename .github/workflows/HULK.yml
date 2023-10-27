@@ -1,27 +1,31 @@
-name: Update Weather Data
+- name: Update Weather Data
+  on:
+    schedule:
+      - cron: "*/10 * * * *"
 
-on:
-  schedule:
-    - cron: "0 0 * * *"  # Exécuter tous les jours à minuit UTC
+  jobs:
+    update:
+      runs-on: ubuntu-latest
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
-    env:  # Ajoutez cette section pour définir la variable d'environnement
-      GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x  # Choisissez la version de Python que vous utilisez
+      - name: Install dependencies
+        run: pip install pandas requests
 
-    - name: Install dependencies
-      run: pip install pandas requests
+      - name: Configure Git
+        run: |
+          git config --global user.email "rivaldi.tristan@orange.fr"
+          git config --global user.name "TristanRivaldi"
 
-    - name: Run Python script to update data
-      run: python update_forecast.py
+      - name: Run Python script to update data
+        run: python update_forecast.py
