@@ -59,9 +59,9 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Heure</th>
-          <th>Température (°C)</th>
-          <th>Vent (km/h)</th>
+          <th>Température Maximale (°C)</th>
+          <th>Température Minimale (°C)</th>
+          <th>Moyenne du Vent (km/h)</th>
           <th>Précipitations (mm)</th>
         </tr>
       </thead>
@@ -85,16 +85,14 @@
           // Remplir les données
           const dates = Object.keys(data);
           for (const date of dates) {
-            const dateRow = document.createElement('tr');
-            dateRow.innerHTML = `<td>${date}</td>`;
-            tbody.appendChild(dateRow);
-
             const dayData = data[date];
-            for (const hourData of dayData) {
-              const dataRow = document.createElement('tr');
-              dataRow.innerHTML = `<td></td><td>${hourData.time}</td><td>${hourData.temperature}</td><td>${hourData.windspeed}</td><td>${hourData.precipitation}</td>`;
-              tbody.appendChild(dataRow);
-            }
+            const dataRow = document.createElement('tr');
+            dataRow.innerHTML = `<td>${date}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Température Maximale (°C)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Moyenne du Vent (km/h)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
+            tbody.appendChild(dataRow);
           }
         })
         .catch(error => {
