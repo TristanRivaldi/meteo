@@ -63,6 +63,7 @@
           <th>Temp. Min (°C)</th>
           <th>Précip. (mm)</th>
           <th>Vent (km/h)</th>
+          <th>Conditions Météo</th>
         </tr>
       </thead>
       <!-- Les données météo seront insérées ici -->
@@ -92,6 +93,18 @@
             dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Moyenne du Vent (km/h)']}</td>`;
+
+            // Ajouter la colonne des conditions météo
+            const weatherConditionCell = document.createElement('td');
+            if (dayData['Précipitations (mm)'] > 0) {
+              // S'il y a des précipitations, afficher une image de nuage avec de la pluie
+              weatherConditionCell.innerHTML = '<img src="nuage.svg" alt="Nuage avec de la pluie" width="50" height="50">';
+            } else {
+              // S'il n'y a pas de précipitations, afficher une image de soleil
+              weatherConditionCell.innerHTML = '<img src="soleil.svg" alt="Soleil" width="50" height="50">';
+            }
+
+            dataRow.appendChild(weatherConditionCell);
             tbody.appendChild(dataRow);
           }
         })
