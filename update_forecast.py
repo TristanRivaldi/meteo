@@ -12,7 +12,8 @@ os.system(f"git config --global user.email '{git_email}'")
 os.system(f"git config --global user.name '{git_name}'")
 
 # L'URL de l'API
-url = "https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m"
+url = 
+"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m"
 
 # Faites une requête vers l'API
 response = requests.get(url)
@@ -34,7 +35,7 @@ if response.status_code == 200:
     # Organiser les données en un format adapté pour le tableau HTML
     daily_data = {}
     for index, row in df.iterrows():
-        date = row['date']
+        date = row['date'].strftime('%Y-%m-%d')  # Convertir la date en str
         time = row['time'].strftime('%H:%M')
         temperature = f"{row['temperature_2m']} °C"
         windspeed = f"{row['windspeed_10m']} km/h"
