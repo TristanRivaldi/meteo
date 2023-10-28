@@ -25,8 +25,8 @@
     }
 
     table {
-      width: 100%;
       border-collapse: collapse;
+      width: 100%;
       margin-top: 20px;
     }
 
@@ -57,15 +57,27 @@
     <table id="weather-table">
       <thead>
         <tr>
-          <th>Jour</th>
-          <th>Température Maximale (°C)</th>
-          <th>Température Minimale (°C)</th>
-          <th>Moyenne du Vent (km/h)</th>
-          <th>Précipitations (mm)</th>
+          <th>Information</th>
+          <!-- Les dates seront insérées ici -->
         </tr>
       </thead>
       <tbody>
-        <!-- Les données seront insérées ici -->
+        <tr>
+          <td>Température Maximale (°C)</td>
+          <!-- Les données de température maximale seront insérées ici -->
+        </tr>
+        <tr>
+          <td>Température Minimale (°C)</td>
+          <!-- Les données de température minimale seront insérées ici -->
+        </tr>
+        <tr>
+          <td>Moyenne du Vent (km/h)</td>
+          <!-- Les données de moyenne du vent seront insérées ici -->
+        </tr>
+        <tr>
+          <td>Précipitations (mm)</td>
+          <!-- Les données de précipitations seront insérées ici -->
+        </tr>
       </tbody>
     </table>
   </div>
@@ -76,20 +88,20 @@
       fetch('weather_data.json')
         .then(response => response.json())
         .then(data => {
-          const tableBody = document.querySelector('#weather-table tbody');
-          tableBody.innerHTML = ''; // Effacer le contenu actuel
-
           // Parcourir les données et les insérer dans le tableau
           for (const date in data) {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${date}</td>
-              <td>${data[date]['Température Maximale (°C)']}</td>
-              <td>${data[date]['Température Minimale (°C)']}</td>
-              <td>${data[date]['Moyenne du Vent (km/h)']}</td>
-              <td>${data[date]['Précipitations (mm)']}</td>
-            `;
-            tableBody.appendChild(row);
+            const tableRow = document.createElement('tr');
+            const dateHeader = document.createElement('th');
+            dateHeader.textContent = date;
+            tableRow.appendChild(dateHeader);
+
+            for (const key in data[date]) {
+              const dataCell = document.createElement('td');
+              dataCell.textContent = data[date][key];
+              tableRow.appendChild(dataCell);
+            }
+
+            document.querySelector('#weather-table tbody').appendChild(tableRow);
           }
         })
         .catch(error => {
