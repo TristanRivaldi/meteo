@@ -31,28 +31,19 @@ if response.status_code == 200:
     # Extrayez la date (jour) à partir de la colonne 'time'
     df['date'] = df['time'].dt.date
 
-    # Organiser les données en un format adapté pour le tableau HTML
-    daily_data = {}
-    for index, row in df.iterrows():
-        date = row['date'].strftime('%Y-%m-%d')  # Convertir la date en str
-        time = row['time'].strftime('%H:%M')
-        temperature = f"{row['temperature_2m']} °C"
-        windspeed = f"{row['windspeed_10m']} km/h"
-        precipitation = f"{row['precipitation']} mm"
+    # Agrégation des données par jour
+    daily_data = df.groupby('date').agg({
+        'temperature_2m': ['max', 'min'],
+        'windspeed_10m': 'mean',
+        'precipitation': 'sum'
+    })
 
-        if date not in daily_data:
-            daily_data[date] = []
+    # Renommez les colonnes pour plus de clarté
+    daily_data.columns = ['Température Maximale (°C)', 'Température Minimale (°C)', 'Moyenne du Vent (km/h)', 'Précipitations (mm)']
 
-        daily_data[date].append({
-            'time': time,
-            'temperature': temperature,
-            'windspeed': windspeed,
-            'precipitation': precipitation
-        })
-
-    # Enregistrez les données dans weather_data.json
-    with open('weather_data.json', 'w') as json_file:
-        json.dump(daily_data, json_file)
+    # Enregistrez les données agrégées dans un fichier JSON
+    daily_data.index = daily_data.index.map(lambda x: x.strftime('%Y-%m-%d'))  # Conversion de la date en str
+    daily_data.to_json('weather_data.json', orient='index')
 
     # Utilisez Git pour ajouter, confirmer et pousser les modifications
     os.system("git add weather_data.json")
