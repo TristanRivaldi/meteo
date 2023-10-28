@@ -55,7 +55,20 @@
     <h1>Prévisions Météo pour Montpellier</h1>
 
     <table id="weather-table">
-      <!-- Les données seront insérées ici -->
+      <!-- L'en-tête des colonnes sera inséré ici -->
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Heure</th>
+          <th>Température (°C)</th>
+          <th>Vent (km/h)</th>
+          <th>Précipitations (mm)</th>
+        </tr>
+      </thead>
+      <!-- Les données météo seront insérées ici -->
+      <tbody>
+        <!-- Les lignes pour les données seront générées dynamiquement ici -->
+      </tbody>
     </table>
   </div>
 
@@ -66,28 +79,22 @@
         .then(response => response.json())
         .then(data => {
           const table = document.querySelector('#weather-table');
-          table.innerHTML = ''; // Effacer le contenu actuel
-
-          // Créer les lignes pour les données
-          const dates = Object.keys(data);
-          const headers = ['Température Maximale (°C)', 'Température Minimale (°C)', 'Moyenne du Vent (km/h)', 'Précipitations (mm)'];
-
-          // En-tête des colonnes
-          const headerRow = document.createElement('tr');
-          headerRow.innerHTML = '<th>Date</th>';
-          for (const header of headers) {
-            headerRow.innerHTML += `<th>${header}</th>`;
-          }
-          table.appendChild(headerRow);
+          const tbody = table.querySelector('tbody');
+          tbody.innerHTML = ''; // Effacer le contenu actuel
 
           // Remplir les données
+          const dates = Object.keys(data);
           for (const date of dates) {
-            const dataRow = document.createElement('tr');
-            dataRow.innerHTML = `<td>${date}</td>`;
-            for (const header of headers) {
-              dataRow.innerHTML += `<td>${data[date][header]}</td>`;
+            const dateRow = document.createElement('tr');
+            dateRow.innerHTML = `<td>${date}</td>`;
+            tbody.appendChild(dateRow);
+
+            const dayData = data[date];
+            for (const hourData of dayData) {
+              const dataRow = document.createElement('tr');
+              dataRow.innerHTML = `<td></td><td>${hourData.time}</td><td>${hourData.temperature}</td><td>${hourData.windspeed}</td><td>${hourData.precipitation}</td>`;
+              tbody.appendChild(dataRow);
             }
-            table.appendChild(dataRow);
           }
         })
         .catch(error => {
