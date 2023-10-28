@@ -25,19 +25,19 @@
     }
 
     table {
-      border-collapse: collapse;
       width: 100%;
-      margin-top: 20px;
+      border-spacing: 0;
     }
 
     th, td {
-      padding: 8px;
-      text-align: center;
+      padding: 12px;
+      text-align: left;
     }
 
     th {
       background-color: #3498db;
       color: #fff;
+      font-weight: bold;
     }
 
     tr:nth-child(even) {
@@ -59,10 +59,10 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Température Maximale (°C)</th>
-          <th>Température Minimale (°C)</th>
-          <th>Moyenne du Vent (km/h)</th>
-          <th>Précipitations (mm)</th>
+          <th>Temp. Max (°C)</th>
+          <th>Temp. Min (°C)</th>
+          <th>Précip. (mm)</th>
+          <th>Vent (km/h)</th>
         </tr>
       </thead>
       <!-- Les données météo seront insérées ici -->
@@ -90,8 +90,8 @@
             dataRow.innerHTML = `<td>${date}</td>`;
             dataRow.innerHTML += `<td>${dayData['Température Maximale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
-            dataRow.innerHTML += `<td>${dayData['Moyenne du Vent (km/h)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Moyenne du Vent (km/h)']}</td>`;
             tbody.appendChild(dataRow);
           }
         })
