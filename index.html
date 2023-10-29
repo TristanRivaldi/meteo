@@ -123,8 +123,13 @@
       hourlyData.forEach(hourly => {
         const hourlyRow = document.createElement('tr');
         const { time, temperature_2m, windspeed_10m, precipitation } = hourly;
-        const options = { hour: '2-digit', minute: '2-digit' };
-        const formattedTime = new Date(time).toLocaleTimeString('fr-FR', options);
+
+        // Formatez l'heure manuellement (heures et minutes)
+        const dateObj = new Date(time);
+        const hours = dateObj.getHours();
+        const minutes = dateObj.getMinutes();
+        const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+
         hourlyRow.innerHTML = `
           <td>${formattedTime}</td>
           <td>${temperature_2m}°C</td>
