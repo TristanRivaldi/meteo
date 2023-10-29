@@ -148,9 +148,9 @@
           tbody.innerHTML = ''; // Effacer le contenu actuel
 
           // Remplir les données
-          const dates = Object.keys(data);
+          const dates = Object.keys(data.daily_data);
           for (const date of dates) {
-            const dayData = data[date];
+            const dayData = data.daily_data[date];
             const dataRow = document.createElement('tr');
 
             // Obtenir le nom du jour de la semaine associé à la date
@@ -164,22 +164,22 @@
             dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
 
             // Ajouter l'image "chaud.svg" à côté de la valeur de Temp. Max (°C) avec une taille plus grande
-            const tempMax = dayData['Température Maximale (°C)'];
+            const tempMax = dayData["Temp\u00e9rature Maximale (°C)"];
             dataRow.innerHTML += `<td>${tempMax} <img src="chaud.svg" alt="Chaud" width="30" height="30"></td>`;
 
             // Ajouter l'image "froid.svg" à côté de la valeur de Temp. Min (°C) avec une taille plus grande
-            const tempMin = dayData['Température Minimale (°C)'];
+            const tempMin = dayData["Temp\u00e9rature Minimale (°C)"];
             dataRow.innerHTML += `<td>${tempMin} <img src="froid.svg" alt="Froid" width="30" height="30"></td>`;
 
-            dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData["Pr\u00e9cipitations (mm)"]}</td>`;
 
             // Extraire la partie entière de la vitesse du vent
-            const windSpeed = parseInt(dayData['Moyenne du Vent (km/h)']);
+            const windSpeed = parseInt(dayData["Moyenne du Vent (km/h)"]);
             dataRow.innerHTML += `<td>${windSpeed}</td>`;
 
             // Ajouter la colonne des conditions météo
             const weatherConditionCell = document.createElement('td');
-            if (dayData['Précipitations (mm)'] > 0) {
+            if (dayData["Pr\u00e9cipitations (mm)"] > 0) {
               // S'il y a des précipitations, afficher une image de nuage avec de la pluie
               weatherConditionCell.innerHTML = '<img src="nuage.svg" alt="Nuage avec de la pluie" width="50" height="50">';
             } else {
@@ -193,7 +193,7 @@
             // Ajoutez un gestionnaire d'événements pour chaque ligne de données
             dataRow.addEventListener('click', () => {
               // Obtenez les données horaires pour cette date (hourlyData devrait être un tableau d'objets horaires)
-              const hourlyData = dayData['hourlyData'];
+              const hourlyData = dayData.hourlyData;
 
               // Afficher les informations horaires pour le jour sélectionné
               showHourlyDetails(formattedDate, hourlyData);
