@@ -45,6 +45,10 @@ if response.status_code == 200:
     # Créez un dictionnaire pour stocker les données horaires par jour
     hourly_data = df.groupby('date').apply(lambda x: x[['temperature_2m', 'windspeed_10m', 'precipitation']].to_dict(orient='records')).to_dict()
 
+    # Convertissez les dates en chaînes de caractères
+    daily_data.index = daily_data.index.map(lambda x: x.strftime('%Y-%m-%d'))
+    hourly_data = {date.strftime('%Y-%m-%d'): data for date, data in hourly_data.items()}
+
     # Enregistrez les données agrégées dans un fichier JSON
     data_to_save = {
         "daily_data": daily_data.to_dict(orient='index'),
