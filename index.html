@@ -52,12 +52,18 @@
     .date {
       font-size: 80%;
     }
+
+    /* Styles pour le contenu horaire */
+    .hourly-details {
+      display: none;
+      background-color: #f9f9f9;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Météo Montpellier</h1>
-
     <table id="weather-table">
       <!-- L'en-tête des colonnes sera inséré ici -->
       <thead>
@@ -75,6 +81,9 @@
         <!-- Les lignes pour les données seront générées dynamiquement ici -->
       </tbody>
     </table>
+    <div class="hourly-details" id="hourly-details">
+      <!-- Les données horaires seront insérées ici -->
+    </div>
   </div>
 
   <script>
@@ -84,10 +93,49 @@
       return daysOfWeek[date.getDay()];
     }
 
-    // Fonction pour afficher les détails horaires
+    // Afficher les données horaires lorsque la ligne est cliquée
     function showHourlyDetails(date, hourlyData) {
-      // Insérez le code ici pour afficher les données horaires, par exemple, dans une boîte modale ou une autre section de la page.
-      // Vous pouvez utiliser `date` et `hourlyData` pour afficher les détails horaires.
+      const hourlyDetails = document.querySelector('#hourly-details');
+      hourlyDetails.innerHTML = ''; // Effacer le contenu actuel
+
+      const title = document.createElement('h2');
+      title.textContent = `Détails horaires pour ${date}`;
+      hourlyDetails.appendChild(title);
+
+      // Créer un tableau pour afficher les données horaires
+      const hourlyTable = document.createElement('table');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+      hourlyTable.appendChild(thead);
+      hourlyTable.appendChild(tbody);
+
+      // Créer l'en-tête du tableau
+      const headerRow = document.createElement('tr');
+      const headerColumns = ['Heure', 'Temp. (°C)', 'Vent (km/h)', 'Précip. (mm)'];
+      headerColumns.forEach(columnText => {
+        const th = document.createElement('th');
+        th.textContent = columnText;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      // Remplir les données horaires
+      hourlyData.forEach(hourly => {
+        const hourlyRow = document.createElement('tr');
+        const { time, temperature_2m, windspeed_10m, precipitation } = hourly;
+        const options = { hour: '2-digit', minute: '2-digit' };
+        const formattedTime = new Date(time).toLocaleTimeString('fr-FR', options);
+        hourlyRow.innerHTML = `
+          <td>${formattedTime}</td>
+          <td>${temperature_2m}°C</td>
+          <td>${windspeed_10m} km/h</td>
+          <td>${precipitation} mm</td>
+        `;
+        tbody.appendChild(hourlyRow);
+      });
+
+      hourlyDetails.appendChild(hourlyTable);
+      hourlyDetails.style.display = 'block';
     }
 
     // Charger les données depuis weather_data.json
