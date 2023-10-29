@@ -135,6 +135,15 @@
 
             dataRow.appendChild(weatherConditionCell);
             tbody.appendChild(dataRow);
+
+            // Ajoutez un gestionnaire d'événements pour chaque ligne de données
+            dataRow.addEventListener('click', () => {
+              // Obtenez les données horaires pour cette date (hourlyData devrait être un tableau d'objets horaires)
+              const hourlyData = dayData['hourlyData'];
+
+              // Afficher les informations horaires pour le jour sélectionné
+              showHourlyDetails(formattedDate, hourlyData);
+            });
           }
         })
         .catch(error => {
