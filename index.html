@@ -31,7 +31,7 @@
 
     th, td {
       padding: 12px;
-      text-align: left;
+      text-align: center; /* Ajustez la mise en forme ici */
     }
 
     th {
@@ -65,7 +65,6 @@
   <div class="container">
     <h1>Météo Montpellier</h1>
     <table id="weather-table">
-      <!-- L'en-tête des colonnes sera inséré ici -->
       <thead>
         <tr>
           <th>Date</th>
@@ -76,7 +75,6 @@
           <th>Conditions Météo</th>
         </tr>
       </thead>
-      <!-- Les données météo seront insérées ici -->
       <tbody>
         <!-- Les lignes pour les données seront générées dynamiquement ici -->
       </tbody>
@@ -138,7 +136,7 @@
       hourlyDetails.style.display = 'block';
     }
 
-    // Charger les données depuis weather_data.json
+    // Charger les données depuis le fichier JSON
     function loadWeatherData() {
       fetch('weather_data.json')
         .then(response => response.json())
@@ -193,7 +191,7 @@
             // Ajoutez un gestionnaire d'événements pour chaque ligne de données
             dataRow.addEventListener('click', () => {
               // Obtenez les données horaires pour cette date (hourlyData devrait être un tableau d'objets horaires)
-              const hourlyData = dayData.hourlyData;
+              const hourlyData = data.hourly_data[date];
 
               // Afficher les informations horaires pour le jour sélectionné
               showHourlyDetails(formattedDate, hourlyData);
