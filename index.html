@@ -113,7 +113,10 @@
             const tempMax = dayData['Température Maximale (°C)'];
             dataRow.innerHTML += `<td>${tempMax} <img src="chaud.svg" alt="Chaud" width="30" height="30"></td>`;
 
-            dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
+            // Ajouter l'image "froid.svg" à côté de la valeur de Temp. Min (°C) avec une taille plus grande
+            const tempMin = dayData['Température Minimale (°C)'];
+            dataRow.innerHTML += `<td>${tempMin} <img src="froid.svg" alt="Froid" width="30" height="30"></td>`;
+
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
 
             // Extraire la partie entière de la vitesse du vent
