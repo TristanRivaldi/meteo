@@ -48,6 +48,10 @@
       background-color: #3498db;
       color: #fff;
     }
+    
+    .date {
+      font-size: 80%;
+    }
   </style>
 </head>
 <body>
@@ -74,6 +78,12 @@
   </div>
 
   <script>
+    // Obtenir le nom du jour de la semaine associé à la date
+    function getDayOfWeek(date) {
+      const daysOfWeek = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+      return daysOfWeek[date.getDay()];
+    }
+
     // Charger les données depuis weather_data.json
     function loadWeatherData() {
       fetch('weather_data.json')
@@ -88,7 +98,12 @@
           for (const date of dates) {
             const dayData = data[date];
             const dataRow = document.createElement('tr');
-            dataRow.innerHTML = `<td>${date}</td>`;
+            
+            // Obtenir le nom du jour de la semaine associé à la date
+            const dateObj = new Date(date);
+            const dayOfWeek = getDayOfWeek(dateObj);
+            
+            dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${dateObj.toDateString().split(' ')[1]} ${dateObj.getDate()}</span></td>`;
             dataRow.innerHTML += `<td>${dayData['Température Maximale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
