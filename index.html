@@ -103,7 +103,11 @@
             const dateObj = new Date(date);
             const dayOfWeek = getDayOfWeek(dateObj);
             
-            dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${dateObj.toDateString().split(' ')[1]} ${dateObj.getDate()}</span></td>`;
+            // Obtenir la date au format jour/mois (français)
+            const options = { day: 'numeric', month: 'numeric' };
+            const formattedDate = dateObj.toLocaleDateString('fr-FR', options);
+            
+            dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
             dataRow.innerHTML += `<td>${dayData['Température Maximale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
