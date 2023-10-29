@@ -88,7 +88,7 @@
       const apiUrl = "https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m";
 
       fetch(apiUrl)
-        .then(response => response.json())
+        .then(response => response.json()) // Convertir la réponse en JSON
         .then(data => {
           // Créer un objet pour stocker les données par jour
           const dailyData = {};
