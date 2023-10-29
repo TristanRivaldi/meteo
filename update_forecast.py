@@ -41,9 +41,17 @@ if response.status_code == 200:
     # Renommez les colonnes pour plus de clarté
     daily_data.columns = ['Température Maximale (°C)', 'Température Minimale (°C)', 'Moyenne du Vent (km/h)', 'Précipitations (mm)']
 
+    # Créez un dictionnaire pour stocker les données horaires par jour
+    hourly_data = df.groupby('date').apply(lambda x: x[['temperature_2m', 'windspeed_10m', 'precipitation']].to_dict(orient='records')).to_dict()
+
     # Enregistrez les données agrégées dans un fichier JSON
-    daily_data.index = daily_data.index.map(lambda x: x.strftime('%Y-%m-%d'))  # Conversion de la date en str
-    daily_data.to_json('weather_data.json', orient='index')
+    data_to_save = {
+        "daily_data": daily_data.to_dict(orient='index'),
+        "hourly_data": hourly_data
+    }
+
+    with open('weather_data.json', 'w') as json_file:
+        json.dump(data_to_save, json_file)
 
     # Utilisez Git pour ajouter, confirmer et pousser les modifications
     os.system("git add weather_data.json")
