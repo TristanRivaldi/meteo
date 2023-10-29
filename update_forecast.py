@@ -3,6 +3,7 @@ import requests
 import json
 import pandas as pd
 import subprocess
+from datetime import date
 
 # Configurez Git avec les informations d'identification
 git_email = "rivaldi.tristan@orange.fr"
