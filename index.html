@@ -109,9 +109,9 @@
 
             dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
 
-            // Ajouter l'image "hot.svg" à côté de la valeur de Temp. Max (°C)
+            // Ajouter l'image "hot.svg" à côté de la valeur de Temp. Max (°C) avec une taille plus grande
             const tempMax = dayData['Température Maximale (°C)'];
-            dataRow.innerHTML += `<td>${tempMax} <img src="hot.svg" alt="Hot" width="20" height="20"></td>`;
+            dataRow.innerHTML += `<td>${tempMax} <img src="hot.svg" alt="Hot" width="30" height="30"></td>`;
 
             dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
