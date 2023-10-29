@@ -52,17 +52,6 @@
     .date {
       font-size: 80%;
     }
-    
-    .thermometer {
-      display: flex;
-      align-items: center;
-    }
-    
-    .thermometer img {
-      width: 16px;
-      height: 16px;
-      margin-right: 4px;
-    }
   </style>
 </head>
 <body>
@@ -119,12 +108,9 @@
             const formattedDate = dateObj.toLocaleDateString('fr-FR', options);
             
             dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
-            
-            // Ajouter l'image du thermomètre à côté de la Temp. Max (°C)
-            dataRow.innerHTML += `<td class="thermometer">${dayData['Température Maximale (°C)']}°C <img src="hot.svg" alt="Thermomètre" width="16" height="16"></td>`;
-            
-            dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)}</td>`;
-            dataRow.innerHTML += `<td>${dayData['Précipitations (mm)}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Température Maximale (°C)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
             
             // Extraire la partie entière de la vitesse du vent
             const windSpeed = parseInt(dayData['Moyenne du Vent (km/h)']);
