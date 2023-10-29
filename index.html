@@ -119,13 +119,12 @@
       });
       thead.appendChild(headerRow);
 
-      // Remplir les données horaires et convertir les horodatages
-      hourlyData = parseDates(hourlyData);
+      // Remplir les données horaires
       hourlyData.forEach(hourly => {
         const hourlyRow = document.createElement('tr');
         const { time, temperature_2m, windspeed_10m, precipitation } = hourly;
         const options = { hour: '2-digit', minute: '2-digit' };
-        const formattedTime = time.toLocaleTimeString('fr-FR', options);
+        const formattedTime = new Date(time).toLocaleTimeString('fr-FR', options);
         hourlyRow.innerHTML = `
           <td>${formattedTime}</td>
           <td>${temperature_2m}°C</td>
@@ -139,15 +138,7 @@
       hourlyDetails.style.display = 'block';
     }
 
-    // Convertir les horodatages en objets Date JavaScript
-    function parseDates(hourlyData) {
-      for (const entry of hourlyData) {
-        entry.time = new Date(entry.time);
-      }
-      return hourlyData;
-    }
-
-    // Charger les données depuis weather_data.json
+    // Charger les données depuis le fichier JSON
     function loadWeatherData() {
       fetch('weather_data.json')
         .then(response => response.json())
@@ -183,25 +174,42 @@
             dataRow.innerHTML += `<td>${dayData["Pr\u00e9cipitations (mm)"]}</td>`;
 
             // Extraire la partie entière de la vitesse du vent
-            const windspeed = Math.round(parseFloat(dayData["Vitesse du Vent (km/h)"]));
-            dataRow.innerHTML += `<td>${windspeed} km/h</td>`;
+            const windSpeed = parseInt(dayData["Moyenne du Vent (km/h)"]);
+            dataRow.innerHTML += `<td>${windSpeed}</td>`;
 
-            dataRow.innerHTML += `<td>${dayData["Conditions M\u00e9t\u00e9o"]}</td>`;
+            // Ajouter la colonne des conditions météo
+            const weatherConditionCell = document.createElement('td');
+            if (dayData["Pr\u00e9cipitations (mm)"] > 0) {
+              // S'il y a des précipitations, afficher une image de nuage avec de la pluie
+              weatherConditionCell.innerHTML = '<img src="nuage.svg" alt="Nuage avec de la pluie" width="50" height="50">';
+            } else {
+              // S'il n'y a pas de précipitations, afficher une image de soleil
+              weatherConditionCell.innerHTML = '<img src="soleil.svg" alt="Soleil" width="50" height="50">';
+            }
 
-            // Ajouter un gestionnaire d'événements pour afficher les détails horaires au clic sur une ligne
-            dataRow.addEventListener('click', () => {
-              showHourlyDetails(date, dayData.hourly_data);
-            });
-
+            dataRow.appendChild(weatherConditionCell);
             tbody.appendChild(dataRow);
+
+            // Ajoutez un gestionnaire d'événements pour chaque ligne de données
+            dataRow.addEventListener('click', () => {
+              // Obtenez les données horaires pour cette date (hourlyData devrait être un tableau d'objets horaires)
+              const hourlyData = data.hourly_data[date];
+
+              // Afficher les informations horaires pour le jour sélectionné
+              showHourlyDetails(formattedDate, hourlyData);
+            });
           }
         })
         .catch(error => {
-          console.error('Une erreur s\'est produite lors du chargement des données :', error);
+          console.error('Erreur lors du chargement des données :', error);
         });
     }
 
-    loadWeatherData(); // Appeler la fonction pour charger les données dès le chargement de la page
+    // Appeler loadWeatherData au chargement de la page
+    loadWeatherData();
+
+    // Rafraîchir automatiquement les données toutes les 12 heures
+    setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en millisecondes
   </script>
 </body>
 </html>
