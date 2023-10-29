@@ -121,7 +121,7 @@
             dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
             
             // Ajouter l'image du thermomètre à côté de la Temp. Max (°C)
-            dataRow.innerHTML += `<td><div class="thermometer"><img src="hot.svg" alt="Thermomètre">${dayData['Température Maximale (°C)']}</div></td>`;
+            dataRow.innerHTML += `<td class="thermometer">${dayData['Température Maximale (°C)']}°C <img src="hot.svg" alt="Thermomètre" width="16" height="16"></td>`;
             
             dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)}</td>`;
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)}</td>`;
