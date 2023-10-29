@@ -92,7 +92,10 @@
             dataRow.innerHTML += `<td>${dayData['Température Maximale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
             dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
-            dataRow.innerHTML += `<td>${dayData['Moyenne du Vent (km/h)']}</td>`;
+            
+            // Extraire la partie entière de la vitesse du vent
+            const windSpeed = parseInt(dayData['Moyenne du Vent (km/h)']);
+            dataRow.innerHTML += `<td>${windSpeed}</td>`;
 
             // Ajouter la colonne des conditions météo
             const weatherConditionCell = document.createElement('td');
