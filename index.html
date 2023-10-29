@@ -52,11 +52,6 @@
     .date {
       font-size: 80%;
     }
-
-    .weather-icon {
-      width: 50px;
-      height: 50px;
-    }
   </style>
 </head>
 <body>
@@ -83,74 +78,60 @@
   </div>
 
   <script>
-    // Fonction pour charger les données météorologiques depuis l'API
+    // Obtenir le nom du jour de la semaine associé à la date
+    function getDayOfWeek(date) {
+      const daysOfWeek = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+      return daysOfWeek[date.getDay()];
+    }
+
+    // Charger les données depuis weather_data.json
     function loadWeatherData() {
-      const apiUrl = "https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,precipitation,windspeed_10m";
-
-      fetch(apiUrl)
-        .then(response => response.json()) // Convertir la réponse en JSON
+      fetch('weather_data.json')
+        .then(response => response.json())
         .then(data => {
-          // Créer un objet pour stocker les données par jour
-          const dailyData = {};
+          const table = document.querySelector('#weather-table');
+          const tbody = table.querySelector('tbody');
+          tbody.innerHTML = ''; // Effacer le contenu actuel
 
-          // Parcourir les données horaires pour les regrouper par jour
-          data.hourly.forEach(hourlyData => {
-            const date = hourlyData.time.split('T')[0]; // Récupérer la date (sans l'heure)
-            if (!dailyData[date]) {
-              dailyData[date] = {
-                temperatureMax: -Infinity,
-                temperatureMin: Infinity,
-                precipitationTotal: 0,
-                windspeedTotal: 0,
-                count: 0,
-              };
-            }
-
-            // Mettre à jour les données pour le jour en cours
-            const temperature = hourlyData.temperature_2m;
-            const precipitation = hourlyData.precipitation;
-            const windspeed = hourlyData.windspeed_10m;
-
-            if (temperature > dailyData[date].temperatureMax) {
-              dailyData[date].temperatureMax = temperature;
-            }
-            if (temperature < dailyData[date].temperatureMin) {
-              dailyData[date].temperatureMin = temperature;
-            }
-            dailyData[date].precipitationTotal += precipitation;
-            dailyData[date].windspeedTotal += windspeed;
-            dailyData[date].count++;
-          });
-
-          // Mettre à jour les éléments HTML du tableau avec les nouvelles données
-          const tableBody = document.getElementById('weather-table').querySelector('tbody');
-          tableBody.innerHTML = '';
-
-          for (const date in dailyData) {
-            const dayData = dailyData[date];
+          // Remplir les données
+          const dates = Object.keys(data);
+          for (const date of dates) {
+            const dayData = data[date];
             const dataRow = document.createElement('tr');
-            dataRow.innerHTML = `<td>${date}</td>`;
-            dataRow.innerHTML += `<td>${dayData.temperatureMax.toFixed(2)} °C</td>`;
-            dataRow.innerHTML += `<td>${dayData.temperatureMin.toFixed(2)} °C</td>`;
-            dataRow.innerHTML += `<td>${dayData.precipitationTotal.toFixed(2)} mm</td>`;
-            dataRow.innerHTML += `<td>${(dayData.windspeedTotal / dayData.count).toFixed(2)} km/h</td>`;
-            const weatherConditionCell = document.createElement('td');
-            const weatherIcon = document.createElement('img');
-            weatherIcon.className = 'weather-icon';
 
-            if (dayData.precipitationTotal > 0) {
+            // Obtenir le nom du jour de la semaine associé à la date
+            const dateObj = new Date(date);
+            const dayOfWeek = getDayOfWeek(dateObj);
+
+            // Obtenir la date au format jour/mois (français)
+            const options = { day: 'numeric', month: 'numeric' };
+            const formattedDate = dateObj.toLocaleDateString('fr-FR', options);
+
+            dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
+
+            // Ajouter l'image "hot.svg" à côté de la valeur de Temp. Max (°C) avec une taille plus grande
+            const tempMax = dayData['Température Maximale (°C)'];
+            dataRow.innerHTML += `<td>${tempMax} <img src="hot.svg" alt="Hot" width="30" height="30"></td>`;
+
+            dataRow.innerHTML += `<td>${dayData['Température Minimale (°C)']}</td>`;
+            dataRow.innerHTML += `<td>${dayData['Précipitations (mm)']}</td>`;
+
+            // Extraire la partie entière de la vitesse du vent
+            const windSpeed = parseInt(dayData['Moyenne du Vent (km/h)']);
+            dataRow.innerHTML += `<td>${windSpeed}</td>`;
+
+            // Ajouter la colonne des conditions météo
+            const weatherConditionCell = document.createElement('td');
+            if (dayData['Précipitations (mm)'] > 0) {
               // S'il y a des précipitations, afficher une image de nuage avec de la pluie
-              weatherIcon.src = 'nuage.svg';
-              weatherIcon.alt = 'Nuage avec de la pluie';
+              weatherConditionCell.innerHTML = '<img src="nuage.svg" alt="Nuage avec de la pluie" width="50" height="50">';
             } else {
               // S'il n'y a pas de précipitations, afficher une image de soleil
-              weatherIcon.src = 'soleil.svg';
-              weatherIcon.alt = 'Soleil';
+              weatherConditionCell.innerHTML = '<img src="soleil.svg" alt="Soleil" width="50" height="50">';
             }
 
-            weatherConditionCell.appendChild(weatherIcon);
             dataRow.appendChild(weatherConditionCell);
-            tableBody.appendChild(dataRow);
+            tbody.appendChild(dataRow);
           }
         })
         .catch(error => {
@@ -161,8 +142,8 @@
     // Appeler loadWeatherData au chargement de la page
     loadWeatherData();
 
-    // Rafraîchir automatiquement les données toutes les 10 minutes (600 000 ms)
-    setInterval(loadWeatherData, 600000);
+    // Rafraîchir automatiquement les données toutes les 12 heures
+    setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en millisecondes
   </script>
 </body>
 </html>
