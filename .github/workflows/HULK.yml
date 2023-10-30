@@ -2,7 +2,7 @@ name: Update Weather Forecast
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Définit la fréquence d'exécution (toutes les 6 heures)
+    - cron: '0 */10 * * *' # Définit la fréquence d'exécution (toutes les 10 heures)
 
 jobs:
   update-weather-forecast:
