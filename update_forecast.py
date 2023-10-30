@@ -47,6 +47,12 @@ if response.status_code == 200:
 
     # Convertissez les dates en chaînes de caractères
     daily_data.index = daily_data.index.map(lambda x: x.strftime('%Y-%m-%d'))
+
+    # Convertissez les objets Timestamp en chaînes de caractères au format ISO
+    for date, data in hourly_data.items():
+        for record in data:
+            record['time'] = record['time'].isoformat()
+
     hourly_data = {date.strftime('%Y-%m-%d'): data for date, data in hourly_data.items()}
 
     # Enregistrez les données agrégées dans un fichier JSON
