@@ -87,6 +87,8 @@
   </div>
 
   <script>
+    let selectedRow = null; // Variable pour suivre la ligne actuellement sélectionnée
+
     // Obtenir le nom du jour de la semaine associé à la date
     function getDayOfWeek(date) {
       const daysOfWeek = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
@@ -199,11 +201,21 @@
 
             // Ajoutez un gestionnaire d'événements pour chaque ligne de données
             dataRow.addEventListener('click', () => {
-              // Obtenez les données horaires pour cette date (hourlyData devrait être un tableau d'objets horaires)
-              const hourlyData = data.hourly_data[date];
+              if (selectedRow === dataRow) {
+                selectedRow.style.backgroundColor = '';
+                selectedRow = null;
+              } else {
+                // Réinitialiser la ligne précédemment sélectionnée si elle existe
+                if (selectedRow) {
+                  selectedRow.style.backgroundColor = '';
+                }
 
-              // Afficher les informations horaires pour le jour sélectionné
-              showHourlyDetails(formattedDate, hourlyData);
+                // Si la ligne actuellement sélectionnée est différente de la nouvelle ligne, afficher les détails horaires
+                selectedRow = dataRow;
+                dataRow.style.backgroundColor = '#3498db';
+                const hourlyData = data.hourly_data[date];
+                showHourlyDetails(formattedDate, hourlyData);
+              }
             });
           }
         })
