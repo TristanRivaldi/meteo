@@ -120,21 +120,25 @@
       thead.appendChild(headerRow);
 
       // Remplir les données horaires
-      hourlyData.forEach(hourly => {
+      for (let hour = 0; hour < 24; hour++) {
+        const formattedTime = `${hour.toString().padStart(2, '0')}:00`;
         const hourlyRow = document.createElement('tr');
-        const { time, temperature_2m, windspeed_10m, precipitation } = hourly;
+        const hourlyDataItem = hourlyData.find(item => item.time.getHours() === hour);
 
-        // Formater l'heure au format HH:MM
-        const formattedTime = new Date(time).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+        if (hourlyDataItem) {
+          const { temperature_2m, windspeed_10m, precipitation } = hourlyDataItem;
+          hourlyRow.innerHTML = `
+            <td>${formattedTime}</td>
+            <td>${temperature_2m}°C</td>
+            <td>${windspeed_10m} km/h</td>
+            <td>${precipitation} mm</td>
+          `;
+        } else {
+          hourlyRow.innerHTML = `<td>${formattedTime}</td><td>N/A</td><td>N/A</td><td>N/A</td>`;
+        }
 
-        hourlyRow.innerHTML = `
-          <td>${formattedTime}</td>
-          <td>${temperature_2m}°C</td>
-          <td>${windspeed_10m} km/h</td>
-          <td>${precipitation} mm</td>
-        `;
         tbody.appendChild(hourlyRow);
-      });
+      }
 
       hourlyDetails.appendChild(hourlyTable);
       hourlyDetails.style.display = 'block';
@@ -211,7 +215,8 @@
     loadWeatherData();
 
     // Rafraîchir automatiquement les données toutes les 12 heures
-    setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en millisecondes
+    setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en 
+millisecondes
   </script>
 </body>
 </html>
