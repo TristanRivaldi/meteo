@@ -31,4 +31,3 @@ jobs:
       - name: Execute update_forecast.py
         run: |
           python update_forecast.py
-        working-directory: .github/workflows
