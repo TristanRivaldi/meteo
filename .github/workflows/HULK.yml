@@ -20,13 +20,14 @@ jobs:
       - name: Install les dépendances
         run: |
           pip install pandas requests
-        working-directory: .github/workflows # Assurez-vous que les dépendances sont installées dans le bon répertoire
 
-      - name: Configure Git
+      - name: Configure Git with Personal Access Token
         run: |
           git config --global user.email "rivaldi.tristan@orange.fr"
           git config --global user.name "TristanRivaldi"
-        working-directory: .github/workflows
+          git remote set-url origin https://github.com/TristanRivaldi/repo.git
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Execute update_forecast.py
         run: |
