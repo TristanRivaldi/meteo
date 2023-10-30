@@ -43,7 +43,7 @@ if response.status_code == 200:
     daily_data.columns = ['Température Maximale (°C)', 'Température Minimale (°C)', 'Moyenne du Vent (km/h)', 'Précipitations (mm)']
 
     # Créez un dictionnaire pour stocker les données horaires par jour
-    hourly_data = df.groupby('date').apply(lambda x: x[['temperature_2m', 'windspeed_10m', 'precipitation']].to_dict(orient='records')).to_dict()
+    hourly_data = df.groupby('date').apply(lambda x: x[['time', 'temperature_2m', 'windspeed_10m', 'precipitation']].to_dict(orient='records')).to_dict()
 
     # Convertissez les dates en chaînes de caractères
     daily_data.index = daily_data.index.map(lambda x: x.strftime('%Y-%m-%d'))
