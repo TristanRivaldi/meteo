@@ -202,8 +202,10 @@
             // Ajoutez un gestionnaire d'événements pour chaque ligne de données
             dataRow.addEventListener('click', () => {
               if (selectedRow === dataRow) {
+                // Si la ligne actuellement sélectionnée est la même que celle cliquée à nouveau, réinitialisez la sélection
                 selectedRow.style.backgroundColor = '';
                 selectedRow = null;
+                document.querySelector('#hourly-details').style.display = 'none'; // Masquer les détails horaires
               } else {
                 // Réinitialiser la ligne précédemment sélectionnée si elle existe
                 if (selectedRow) {
