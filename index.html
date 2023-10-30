@@ -125,7 +125,7 @@
         const { time, temperature_2m, windspeed_10m, precipitation } = hourly;
 
         // Formater l'heure au format HH:MM
-        const formattedTime = new Date(time).getHours() + ":" + (new Date(time).getMinutes() < 10 ? '0' : '') + new Date(time).getMinutes();
+        const formattedTime = new Date(time).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
         hourlyRow.innerHTML = `
           <td>${formattedTime}</td>
@@ -171,7 +171,7 @@
 
             // Ajouter l'image "froid.svg" à côté de la valeur de Temp. Min (°C) avec une taille plus grande
             const tempMin = dayData["Temp\u00e9rature Minimale (°C)"];
-            dataRow.innerHTML += `<td>${tempMin} <img src "froid.svg" alt="Froid" width="30" height="30"></td>`;
+            dataRow.innerHTML += `<td>${tempMin} <img src="froid.svg" alt="Froid" width="30" height="30"></td>`;
 
             dataRow.innerHTML += `<td>${dayData["Pr\u00e9cipitations (mm)"]}</td>`;
 
