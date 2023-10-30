@@ -123,7 +123,7 @@
       for (let hour = 0; hour < 24; hour++) {
         const formattedTime = `${hour.toString().padStart(2, '0')}:00`;
         const hourlyRow = document.createElement('tr');
-        const hourlyDataItem = hourlyData.find(item => item.time.getHours() === hour);
+        const hourlyDataItem = hourlyData.find(item => new Date(item.time).getHours() === hour);
 
         if (hourlyDataItem) {
           const { temperature_2m, windspeed_10m, precipitation } = hourlyDataItem;
@@ -215,8 +215,7 @@
     loadWeatherData();
 
     // Rafraîchir automatiquement les données toutes les 12 heures
-    setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en 
-millisecondes
+    setInterval(loadWeatherData, 12 * 60 * 60 * 1000); // 12 heures en millisecondes
   </script>
 </body>
 </html>
