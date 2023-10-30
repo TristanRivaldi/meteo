@@ -27,7 +27,7 @@ jobs:
           git config --global user.name "TristanRivaldi"
           git remote set-url origin https://github.com/TristanRivaldi/meteo
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.TOKEN }} # Utilisez le secret "TOKEN" comme jeton d'accès personnel
 
       - name: Execute update_forecast.py
         run: |
