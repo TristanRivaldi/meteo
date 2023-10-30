@@ -1,29 +1,34 @@
-name: Update Weather Data
+name: Update Weather Forecast
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: '*/10 * * * *' # Définit la fréquence d'exécution (toutes les 10 minutes)
 
 jobs:
-  update:
+  update-weather-forecast:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout le code source
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.x
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
 
-    - name: Install dependencies
-      run: pip install pandas requests
+      - name: Install les dépendances
+        run: |
+          pip install pandas requests
+        working-directory: .github/workflows # Assurez-vous que les dépendances sont installées dans le bon répertoire
 
-    - name: Configure Git
-      run: |
-        git config --global user.email "rivaldi.tristan@orange.fr"
-        git config --global user.name "TristanRivaldi"
+      - name: Configure Git
+        run: |
+          git config --global user.email "rivaldi.tristan@orange.fr"
+          git config --global user.name "TristanRivaldi"
+        working-directory: .github/workflows
 
-    - name: Run Python script to update data
-      run: python update_forecast.py je veux supprimer la partie sur les token
+      - name: Execute update_forecast.py
+        run: |
+          python update_forecast.py
+        working-directory: .github/workflows
