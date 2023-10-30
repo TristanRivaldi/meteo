@@ -131,7 +131,7 @@
             <td>${formattedTime}</td>
             <td>${temperature_2m}°C</td>
             <td>${windspeed_10m} km/h</td>
-            <td>${precipitation} mm</td>
+            <td>${parseFloat(precipitation).toFixed(1)} mm</td>
           `;
         } else {
           hourlyRow.innerHTML = `<td>${formattedTime}</td><td>N/A</td><td>N/A</td><td>N/A</td>`;
@@ -177,7 +177,8 @@
             const tempMin = dayData["Temp\u00e9rature Minimale (°C)"];
             dataRow.innerHTML += `<td>${tempMin} <img src="froid.svg" alt="Froid" width="30" height="30"></td>`;
 
-            dataRow.innerHTML += `<td>${dayData["Pr\u00e9cipitations (mm)"]}</td>`;
+            const precipitation = parseFloat(dayData["Pr\u00e9cipitations (mm)"]).toFixed(1);
+            dataRow.innerHTML += `<td>${precipitation}</td>`;
 
             // Extraire la partie entière de la vitesse du vent
             const windSpeed = parseInt(dayData["Moyenne du Vent (km/h)"]);
