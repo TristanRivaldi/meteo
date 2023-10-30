@@ -25,10 +25,11 @@ jobs:
         run: |
           git config --global user.email "rivaldi.tristan@orange.fr"
           git config --global user.name "TristanRivaldi"
-          git remote set-url origin https://github.com/TristanRivaldi/repo.git
+          git remote set-url origin https://github.com/TristanRivaldi/meteo.git
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Execute update_forecast.py
         run: |
           python update_forecast.py
+
