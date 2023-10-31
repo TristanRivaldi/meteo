@@ -59,6 +59,12 @@
       background-color: #f9f9f9;
       padding: 10px;
     }
+
+    /* Style pour les images de conditions météo */
+    .weather-icon {
+      width: 60px; /* Double la taille des images */
+      height: 60px; /* Double la taille des images */
+    }
   </style>
 </head>
 <body>
@@ -69,11 +75,11 @@
       <thead>
         <tr>
           <th>Date</th>
+          <th>Conditions Météo</th> <!-- Conditions météo en deuxième place -->
           <th>Temp. Max (°C)</th>
           <th>Temp. Min (°C)</th>
           <th>Précip. (mm)</th>
           <th>Vent (km/h)</th>
-          <th>Conditions Météo</th>
         </tr>
       </thead>
       <!-- Les données météo seront insérées ici -->
@@ -171,6 +177,17 @@
 
             dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
 
+            // Ajouter la colonne des conditions météo
+            const weatherConditionCell = document.createElement('td');
+            if (dayData["Pr\u00e9cipitations (mm)"] > 0) {
+              // S'il y a des précipitations, afficher une image de nuage avec de la pluie
+              weatherConditionCell.innerHTML = '<img class="weather-icon" src="nuage.svg" alt="Nuage avec de la pluie">';
+            } else {
+              // S'il n'y a pas de précipitations, afficher une image de soleil
+              weatherConditionCell.innerHTML = '<img class="weather-icon" src="soleil.svg" alt="Soleil">';
+            }
+            dataRow.appendChild(weatherConditionCell);
+
             // Ajouter l'image "chaud.svg" à côté de la valeur de Temp. Max (°C) avec une taille plus grande
             const tempMax = dayData["Temp\u00e9rature Maximale (°C)"];
             dataRow.innerHTML += `<td>${tempMax} <img src="chaud.svg" alt="Chaud" width="30" height="30"></td>`;
@@ -186,17 +203,6 @@
             const windSpeed = parseInt(dayData["Moyenne du Vent (km/h)"]);
             dataRow.innerHTML += `<td>${windSpeed}</td>`;
 
-            // Ajouter la colonne des conditions météo
-            const weatherConditionCell = document.createElement('td');
-            if (dayData["Pr\u00e9cipitations (mm)"] > 0) {
-              // S'il y a des précipitations, afficher une image de nuage avec de la pluie
-              weatherConditionCell.innerHTML = '<img src="nuage.svg" alt="Nuage avec de la pluie" width="50" height="50">';
-            } else {
-              // S'il n'y a pas de précipitations, afficher une image de soleil
-              weatherConditionCell.innerHTML = '<img src="soleil.svg" alt="Soleil" width="50" height="50">';
-            }
-
-            dataRow.appendChild(weatherConditionCell);
             tbody.appendChild(dataRow);
 
             // Ajoutez un gestionnaire d'événements pour chaque ligne de données
@@ -234,3 +240,4 @@
   </script>
 </body>
 </html>
+
