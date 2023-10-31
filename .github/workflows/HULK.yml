@@ -32,3 +32,7 @@ jobs:
       - name: Execute update_forecast.py
         run: |
           python update_forecast.py
+
+      - name: Pull latest changes from the main branch
+        run: |
+          git pull origin main
