@@ -65,10 +65,9 @@
   <div class="container">
     <h1>Météo Montpellier</h1>
     <table id="weather-table">
-      <!-- L'en-tête des colonnes sera inséré ici -->
+      <!-- Les en-têtes des colonnes (dates) seront insérés ici -->
       <thead>
         <tr>
-          <th>Date</th>
           <th>Temp. Max (°C)</th>
           <th>Temp. Min (°C)</th>
           <th>Précip. (mm)</th>
@@ -87,7 +86,8 @@
   </div>
 
   <script>
-    let selectedRow = null; // Variable pour suivre la ligne actuellement sélectionnée
+    let selectedColumn = null; // Variable pour suivre la colonne actuellement sélectionnée
+    let originalTableContent = null; // Variable pour stocker le contenu du tableau d'origine
 
     // Obtenir le nom du jour de la semaine associé à la date
     function getDayOfWeek(date) {
@@ -95,7 +95,7 @@
       return daysOfWeek[date.getDay()];
     }
 
-    // Afficher les données horaires lorsque la ligne est cliquée
+    // Afficher les données horaires lorsque la colonne est cliquée
     function showHourlyDetails(date, hourlyData) {
       const hourlyDetails = document.querySelector('#hourly-details');
       hourlyDetails.innerHTML = ''; // Effacer le contenu actuel
@@ -155,6 +155,9 @@
           const tbody = table.querySelector('tbody');
           tbody.innerHTML = ''; // Effacer le contenu actuel
 
+          // Sauvegarder le contenu du tableau d'origine
+          originalTableContent = table.innerHTML;
+
           // Remplir les données
           const dates = Object.keys(data.daily_data);
           for (const date of dates) {
@@ -169,26 +172,54 @@
             const options = { day: 'numeric', month: 'numeric' };
             const formattedDate = dateObj.toLocaleDateString('fr-FR', options);
 
-            dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
-
-            // Ajouter l'image "chaud.svg" à côté de la valeur de Temp. Max (°C) avec une taille plus grande
-            const tempMax = dayData["Temp\u00e9rature Maximale (°C)"];
-            dataRow.innerHTML += `<td>${tempMax} <img src="chaud.svg" alt="Chaud" width="30" height="30"></td>`;
-
-            // Ajouter l'image "froid.svg" à côté de la valeur de Temp. Min (°C) avec une taille plus grande
-            const tempMin = dayData["Temp\u00e9rature Minimale (°C)"];
-            dataRow.innerHTML += `<td>${tempMin} <img src="froid.svg" alt="Froid" width="30" height="30"></td>`;
-
-            const precipitation = parseFloat(dayData["Pr\u00e9cipitations (mm)"]).toFixed(1);
-            dataRow.innerHTML += `<td>${precipitation}</td>`;
-
-            // Extraire la partie entière de la vitesse du vent
+            // Obtenir la température maximale, minimale, précipitations et vitesse du vent pour la date
+            const tempMax = dayData["Température Maximale (°C)"];
+            const tempMin = dayData["Température Minimale (°C)"];
+            const precipitation = parseFloat(dayData["Précipitations (mm)"]).toFixed(1);
             const windSpeed = parseInt(dayData["Moyenne du Vent (km/h)"]);
+
+            // Ajouter la colonne de date (en tant qu'en-tête)
+            const dateCell = document.createElement('th');
+            dateCell.textContent = `${dayOfWeek}, ${formattedDate}`;
+            dateCell.style.cursor = 'pointer';
+            dateCell.addEventListener('click', () => {
+              if (selectedColumn === dateCell) {
+                // Si la colonne actuellement sélectionnée est la même que celle cliquée à nouveau, réinitialisez la sélection
+                selectedColumn.style.backgroundColor = '';
+                selectedColumn = null;
+
+                // Rétablir le contenu du tableau d'origine
+                table.innerHTML = originalTableContent;
+
+                document.querySelector('#hourly-details').style.display = 'none'; // Masquer les détails horaires
+              } else {
+                // Réinitialiser la colonne précédemment sélectionnée si elle existe
+                if (selectedColumn) {
+                  selectedColumn.style.backgroundColor = '';
+                }
+
+                // Sauvegarder le contenu du tableau d'origine
+                originalTableContent = table.innerHTML;
+
+                // Si la colonne actuellement sélectionnée est différente de la nouvelle colonne, afficher les détails horaires
+                selectedColumn = dateCell;
+                dateCell.style.backgroundColor = '#3498db';
+                const hourlyData = data.hourly_data[date];
+                showHourlyDetails(`${dayOfWeek}, ${formattedDate}`, hourlyData);
+              }
+            });
+
+            dataRow.appendChild(dateCell);
+
+            // Ajouter les données météorologiques sous la colonne de date
+            dataRow.innerHTML += `<td>${tempMax} <img src="chaud.svg" alt="Chaud" width="30" height="30"></td>`;
+            dataRow.innerHTML += `<td>${tempMin} <img src="froid.svg" alt="Froid" width="30" height="30"></td>`;
+            dataRow.innerHTML += `<td>${precipitation}</td>`;
             dataRow.innerHTML += `<td>${windSpeed}</td>`;
 
             // Ajouter la colonne des conditions météo
             const weatherConditionCell = document.createElement('td');
-            if (dayData["Pr\u00e9cipitations (mm)"] > 0) {
+            if (dayData["Précipitations (mm)"] > 0) {
               // S'il y a des précipitations, afficher une image de nuage avec de la pluie
               weatherConditionCell.innerHTML = '<img src="nuage.svg" alt="Nuage avec de la pluie" width="50" height="50">';
             } else {
@@ -198,27 +229,6 @@
 
             dataRow.appendChild(weatherConditionCell);
             tbody.appendChild(dataRow);
-
-            // Ajoutez un gestionnaire d'événements pour chaque ligne de données
-            dataRow.addEventListener('click', () => {
-              if (selectedRow === dataRow) {
-                // Si la ligne actuellement sélectionnée est la même que celle cliquée à nouveau, réinitialisez la sélection
-                selectedRow.style.backgroundColor = '';
-                selectedRow = null;
-                document.querySelector('#hourly-details').style.display = 'none'; // Masquer les détails horaires
-              } else {
-                // Réinitialiser la ligne précédemment sélectionnée si elle existe
-                if (selectedRow) {
-                  selectedRow.style.backgroundColor = '';
-                }
-
-                // Si la ligne actuellement sélectionnée est différente de la nouvelle ligne, afficher les détails horaires
-                selectedRow = dataRow;
-                dataRow.style.backgroundColor = '#3498db';
-                const hourlyData = data.hourly_data[date];
-                showHourlyDetails(formattedDate, hourlyData);
-              }
-            });
           }
         })
         .catch(error => {
