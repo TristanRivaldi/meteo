@@ -2,7 +2,7 @@ name: Update Weather Forecast
 
 on:
   schedule:
-    - cron: '30 5 * * *' # Définit l'exécution quotidienne à 7h30 chaque jour
+    - cron: '30 6 * * *' # Définit l'exécution quotidienne à 7h30 chaque jour
 
 jobs:
   update-weather-forecast:
