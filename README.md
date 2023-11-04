@@ -1,1 +1,56 @@
-# meteooo
+# Projet Météo Montpellier
+
+Ce projet vise à fournir des informations météorologiques précises et actualisées pour la ville de Montpellier. En utilisant l'API Open-Meteo, les données sont collectées, traitées et présentées 
+aux utilisateurs.
+
+## Aperçu
+
+L'application "Météo Montpellier" offre un moyen simple et efficace de suivre les conditions météorologiques quotidiennes et horaires pour Montpellier. Parmi ses principales fonctionnalités, on 
+trouve :
+
+- Affichage des températures maximales et minimales quotidiennes.
+- Suivi des précipitations et de la vitesse moyenne du vent.
+- Consultation des données météorologiques horaires pour chaque jour, permettant aux utilisateurs de planifier leurs activités en conséquence.
+
+## Fonctionnalités clés
+
+Le projet comporte plusieurs composants et fonctionnalités essentielles :
+
+1. **Collecte de données :** Un script Python (`update_forecast.py`) est utilisé pour interroger l'API Open-Meteo et récupérer un large éventail de données météorologiques, notamment la température, 
+les précipitations et la vitesse du vent.
+
+2. **Traitement des données :** Les données horaires sont agrégées quotidiennement pour calculer la température maximale et minimale, la moyenne de la vitesse du vent et la somme des précipitations. 
+Ces informations sont ensuite stockées dans un fichier JSON (`weather_data.json`) pour une récupération et un affichage rapides.
+
+3. **Affichage :** Les données sont présentées aux utilisateurs sur une page web. Les informations sont organisées dans un tableau, avec des symboles 
+visuels pour indiquer les conditions météorologiques (il y a un nuage avec de la pluie si des précipitations sont attendus dans la journées et un soleil si il n'y a pas de précipitation).
+
+4. **Détails horaires :** Les utilisateurs ont la possibilité de consulter les détails horaires des conditions météorologiques pour une journée sélectionnée en cliquant sur la ligne correspondante. 
+Cela leur permet d'obtenir des informations plus précises sur les heures de la journée qui les intéressent.
+
+5. **Mises à jour automatiques :** Le projet est conçu pour se mettre à jour automatiquement chaque jour à 7h30, garantissant que les données sont toujours actuelles et précises.
+
+## Méthodologie
+
+L'application "Météo Montpellier" suit une méthodologie bien définie pour fournir des données météorologiques précises et actualisées. Voici comment le processus fonctionne :
+
+1. **Collecte des données :** Le script Python interroge l'API Open-Meteo à l'aide de coordonnées géographiques spécifiques pour Montpellier. Les données sont récupérées en temps réel.
+
+2. **Traitement des données :** Les données brutes sont transformées en un format lisible et significatif. Les données horaires sont agrégées pour produire des informations quotidiennes.
+
+3. **Stockage des données :** Les données sont stockées dans un fichier JSON pour une récupération rapide. Ce fichier contient des informations quotidiennes ainsi que des détails horaires pour 
+chaque jour.
+
+## Sources des données
+
+Les données météorologiques sont obtenues à partir de l'API Open-Meteo, qui est une source fiable pour les prévisions météorologiques de Montpellier.
+
+## Application Web
+
+Vous pouvez accéder à l'application "Météo Montpellier" en suivant ce lien : [Météo Montpellier](https://tristanrivaldi.github.io/meteo/)
+
+## Contributeurs
+
+- [Tristan Rivaldi](mailto:rivaldi.tristan@orange.fr)
+
+
