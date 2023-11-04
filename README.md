@@ -12,7 +12,7 @@ trouve :
 - Suivi des précipitations et de la vitesse moyenne du vent.
 - Consultation des données météorologiques horaires pour chaque jour, permettant aux utilisateurs de planifier leurs activités en conséquence.
 
-## Fonctionnalités clés
+## Fonctionnalités et méthodologie
 
 Le projet comporte plusieurs composants et fonctionnalités essentielles :
 
@@ -23,27 +23,12 @@ les précipitations et la vitesse du vent.
 Ces informations sont ensuite stockées dans un fichier JSON (`weather_data.json`) pour une récupération et un affichage rapides.
 
 3. **Affichage :** Les données sont présentées aux utilisateurs sur une page web. Les informations sont organisées dans un tableau, avec des symboles 
-visuels pour indiquer les conditions météorologiques (il y a un nuage avec de la pluie si des précipitations sont attendus dans la journées et un soleil si il n'y a pas de précipitation).
+visuels pour indiquer les conditions météorologiques (il y a un nuage avec de la pluie si des précipitations sont attendus dans la journées et un soleil si il n'y a pas de précipitation). Les images utilisées sont prises sur [freesvg.org](https://freesvg.org).
 
 4. **Détails horaires :** Les utilisateurs ont la possibilité de consulter les détails horaires des conditions météorologiques pour une journée sélectionnée en cliquant sur la ligne correspondante. 
 Cela leur permet d'obtenir des informations plus précises sur les heures de la journée qui les intéressent.
 
 5. **Mises à jour automatiques :** Le projet est conçu pour se mettre à jour automatiquement chaque jour à 7h30, garantissant que les données sont toujours actuelles et précises.
-
-## Méthodologie
-
-L'application "Météo Montpellier" suit une méthodologie bien définie pour fournir des données météorologiques précises et actualisées. Voici comment le processus fonctionne :
-
-1. **Collecte des données :** Le script Python interroge l'API Open-Meteo à l'aide de coordonnées géographiques spécifiques pour Montpellier. Les données sont récupérées en temps réel.
-
-2. **Traitement des données :** Les données brutes sont transformées en un format lisible et significatif. Les données horaires sont agrégées pour produire des informations quotidiennes.
-
-3. **Stockage des données :** Les données sont stockées dans un fichier JSON pour une récupération rapide. Ce fichier contient des informations quotidiennes ainsi que des détails horaires pour 
-chaque jour.
-
-## Sources des données
-
-Les données météorologiques sont obtenues à partir de l'API Open-Meteo, qui est une source fiable pour les prévisions météorologiques de Montpellier.
 
 ## Application Web
 
