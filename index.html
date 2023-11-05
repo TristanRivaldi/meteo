@@ -76,6 +76,17 @@
   <div class="container">
     <h1>Météo Montpellier</h1>
     <table id="weather-table">
+      <!-- En-tête des colonnes du tableau -->
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Conditions Météo</th> <!-- Conditions météo en deuxième place -->
+          <th>Temp. Max (°C)</th>
+          <th>Temp. Min (°C)</th>
+          <th>Précip. (mm)</th>
+          <th>Vent (km/h)</th>
+        </tr>
+      </thead>
       <!-- Données météorologiques seront insérées ici -->
       <tbody>
         <!-- Lignes pour les données seront générées dynamiquement ici -->
@@ -123,7 +134,7 @@
 
       // Créer l'en-tête du tableau
       const headerRow = document.createElement('tr');
-      const headerColumns = ['Heure', 'Temp. (°C)', 'Vent (km/h)', 'Précip. (mm)'];
+      const headerColumns = ['Heure', 'Temp. (°C)', 'Vent (km/h)', 'Précip. (mm)', 'Conditions Météo'];
       headerColumns.forEach(columnText => {
         const th = document.createElement('th');
         th.textContent = columnText;
@@ -131,11 +142,17 @@
       });
       thead.appendChild(headerRow);
 
+      // Heures à afficher
+      const hoursToDisplay = ['03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '00:00'];
+
       // Remplir les données horaires
-      for (let hour = 0; hour < 24; hour++) {
-        const formattedTime = `${hour.toString().padStart(2, '0')}:00`;
+      for (const hourToDisplay of hoursToDisplay) {
         const hourlyRow = document.createElement('tr');
-        const hourlyDataItem = hourlyData.find(item => new Date(item.time).getHours() === hour);
+        const formattedTime = hourToDisplay;
+        const hourlyDataItem = hourlyData.find(item => {
+          const itemTime = new Date(item.time).getHours();
+          return itemTime === parseInt(hourToDisplay);
+        });
 
         if (hourlyDataItem) {
           const { temperature_2m, windspeed_10m, precipitation } = hourlyDataItem;
@@ -144,9 +161,10 @@
             <td>${temperature_2m}°C</td>
             <td>${windspeed_10m} km/h</td>
             <td>${parseFloat(precipitation).toFixed(1)} mm</td>
+            <td><img class="weather-icon" src="${precipitation > 0 ? 'nuage.svg' : 'soleil.svg'}" alt="${precipitation > 0 ? 'Nuage avec de la pluie' : 'Soleil'}"></td>
           `;
         } else {
-          hourlyRow.innerHTML = `<td>${formattedTime}</td><td>N/A</td><td>N/A</td><td>N/A</td>`;
+          hourlyRow.innerHTML = `<td>${formattedTime}</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td>`;
         }
 
         tbody.appendChild(hourlyRow);
@@ -167,9 +185,9 @@
 
           // Remplir les données
           const dates = Object.keys(data.daily_data);
-
           for (const date of dates) {
             const dayData = data.daily_data[date];
+            const dataRow = document.createElement('tr');
 
             // Obtenir le nom du jour de la semaine associé à la date
             const dateObj = new Date(date);
@@ -179,13 +197,7 @@
             const options = { day: 'numeric', month: 'numeric' };
             const formattedDate = dateObj.toLocaleDateString('fr-FR', options);
 
-            // Créer une ligne pour chaque date
-            const dateRow = document.createElement('tr');
-            dateRow.innerHTML = `<td>${dayOfWeek} ${formattedDate}<br><span class="date">${formattedDate}</span></td>`;
-            tbody.appendChild(dateRow);
-
-            // Créer une ligne pour chaque ensemble d'informations
-            const dataRow = document.createElement('tr');
+            dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
 
             // Ajouter la colonne des conditions météo
             const weatherConditionCell = document.createElement('td');
@@ -215,9 +227,9 @@
 
             tbody.appendChild(dataRow);
 
-            // Ajouter un gestionnaire d'événements pour chaque ligne de date
-            dateRow.addEventListener('click', () => {
-              if (selectedRow === dateRow) {
+            // Ajouter un gestionnaire d'événements pour chaque ligne de données
+            dataRow.addEventListener('click', () => {
+              if (selectedRow === dataRow) {
                 // Si la ligne actuellement sélectionnée est la même que celle cliquée à nouveau, réinitialisez la sélection
                 selectedRow.style.backgroundColor = '';
                 selectedRow = null;
@@ -229,8 +241,8 @@
                 }
 
                 // Si la ligne actuellement sélectionnée est différente de la nouvelle ligne, afficher les détails horaires
-                selectedRow = dateRow;
-                dateRow.style.backgroundColor = '#3498db';
+                selectedRow = dataRow;
+                dataRow.style.backgroundColor = '#3498db';
                 const hourlyData = data.hourly_data[date];
                 showHourlyDetails(formattedDate, hourlyData);
               }
