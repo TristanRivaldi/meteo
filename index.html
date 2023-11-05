@@ -100,9 +100,9 @@
       <h2>Méthodologie :</h2>
       <p>
         Cette application présente la température maximale et minimale de chaque jour, la moyenne des précipitations et la moyenne de la vitesse du vent. 
-De plus, en cliquant sur une ligne du tableau, vous accéderez aux informations horaires de la journée choisie. Si vous recliquez sur la même ligne, le 
-tableau d'origine réapparaîtra. Les données sont collectées à partir d'une URL API. Les mises à jour automatiques des données sont effectuées 
-quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
+        De plus, en cliquant sur une ligne du tableau, vous accéderez aux informations horaires de la journée choisie. Si vous recliquez sur la même ligne, le 
+        tableau d'origine réapparaîtra. Les données sont collectées à partir d'une URL API. Les mises à jour automatiques des données sont effectuées 
+        quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
       </p>
     </div>
   </div>
@@ -134,7 +134,7 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
 
       // Créer l'en-tête du tableau
       const headerRow = document.createElement('tr');
-      const headerColumns = ['Heure', 'Temp. (°C)', 'Vent (km/h)', 'Précip. (mm)'];
+      const headerColumns = ['Heure', 'Temp. (°C)', 'Vent (km/h)', 'Précip. (mm)', 'Conditions Météo'];
       headerColumns.forEach(columnText => {
         const th = document.createElement('th');
         th.textContent = columnText;
@@ -142,11 +142,17 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
       });
       thead.appendChild(headerRow);
 
+      // Heures à afficher
+      const hoursToDisplay = ['03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '00:00'];
+
       // Remplir les données horaires
-      for (let hour = 0; hour < 24; hour++) {
-        const formattedTime = `${hour.toString().padStart(2, '0')}:00`;
+      for (const hourToDisplay of hoursToDisplay) {
         const hourlyRow = document.createElement('tr');
-        const hourlyDataItem = hourlyData.find(item => new Date(item.time).getHours() === hour);
+        const formattedTime = hourToDisplay;
+        const hourlyDataItem = hourlyData.find(item => {
+          const itemTime = new Date(item.time).getHours();
+          return itemTime === parseInt(hourToDisplay);
+        });
 
         if (hourlyDataItem) {
           const { temperature_2m, windspeed_10m, precipitation } = hourlyDataItem;
@@ -155,9 +161,10 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
             <td>${temperature_2m}°C</td>
             <td>${windspeed_10m} km/h</td>
             <td>${parseFloat(precipitation).toFixed(1)} mm</td>
+            <td><img class="weather-icon" src="${precipitation > 0 ? 'nuage.svg' : 'soleil.svg'}" alt="${precipitation > 0 ? 'Nuage avec de la pluie' : 'Soleil'}"></td>
           `;
         } else {
-          hourlyRow.innerHTML = `<td>${formattedTime}</td><td>N/A</td><td>N/A</td><td>N/A</td>`;
+          hourlyRow.innerHTML = `<td>${formattedTime}</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td>`;
         }
 
         tbody.appendChild(hourlyRow);
