@@ -35,7 +35,7 @@
 
     th, td {
       padding: 12px;
-      text-align: left;
+      text-align: center;
     }
 
     th {
@@ -46,11 +46,6 @@
 
     tr:nth-child(even) {
       background-color: #f2f2f2;
-    }
-
-    tr:hover {
-      background-color: #3498db;
-      color: #fff;
     }
 
     /* Styles pour la date */
@@ -94,16 +89,6 @@
     </table>
     <div class="hourly-details" id="hourly-details">
       <!-- Données horaires seront insérées ici -->
-    </div>
-    <!-- Description de la méthodologie (peut être retirée si nécessaire) -->
-    <div id="methodology-description">
-      <h2>Méthodologie :</h2>
-      <p>
-        Cette application présente la température maximale et minimale de chaque jour, la moyenne des précipitations et la moyenne de la vitesse du vent. 
-De plus, en cliquant sur une ligne du tableau, vous accéderez aux informations horaires de la journée choisie. Si vous recliquez sur la même ligne, le 
-tableau d'origine réapparaîtra. Les données sont collectées à partir d'une URL API. Les mises à jour automatiques des données sont effectuées 
-quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
-      </p>
     </div>
   </div>
 
@@ -194,7 +179,7 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
 
             // Ajouter la colonne des conditions météo
             const weatherConditionCell = document.createElement('td');
-            if (dayData["Pr\u00e9cipitations (mm)"] > 0) {
+            if (dayData["Précipitations (mm)"] > 0) {
               // S'il y a des précipitations, afficher une image de nuage avec de la pluie
               weatherConditionCell.innerHTML = '<img class="weather-icon" src="nuage.svg" alt="Nuage avec de la pluie">';
             } else {
@@ -203,20 +188,10 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
             }
             dataRow.appendChild(weatherConditionCell);
 
-            // Ajouter l'image "chaud.svg" à côté de la valeur de Temp. Max (°C) avec une taille plus grande
-            const tempMax = dayData["Temp\u00e9rature Maximale (°C)"];
-            dataRow.innerHTML += `<td>${tempMax} <img src="chaud.svg" alt="Chaud" width="30" height="30"></td>`;
-
-            // Ajouter l'image "froid.svg" à côté de la valeur de Temp. Min (°C) avec une taille plus grande
-            const tempMin = dayData["Temp\u00e9rature Minimale (°C)"];
-            dataRow.innerHTML += `<td>${tempMin} <img src="froid.svg" alt="Froid" width="30" height="30"></td>`;
-
-            const precipitation = parseFloat(dayData["Pr\u00e9cipitations (mm)"]).toFixed(1);
-            dataRow.innerHTML += `<td>${precipitation}</td>`;
-
-            // Extraire la partie entière de la vitesse du vent
-            const windSpeed = parseInt(dayData["Moyenne du Vent (km/h)"]);
-            dataRow.innerHTML += `<td>${windSpeed}</td>`;
+            dataRow.innerHTML += `<td>${dayData["Température Maximale (°C)"]}</td>`;
+            dataRow.innerHTML += `<td>${dayData["Température Minimale (°C)"]}</td>`;
+            dataRow.innerHTML += `<td>${parseFloat(dayData["Précipitations (mm)"]).toFixed(1)}</td>`;
+            dataRow.innerHTML += `<td>${parseInt(dayData["Moyenne du Vent (km/h)"])}</td>`;
 
             tbody.appendChild(dataRow);
 
@@ -255,3 +230,4 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
   </script>
 </body>
 </html>
+
