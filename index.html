@@ -3,6 +3,7 @@
 <head>
   <title>Météo Montpellier</title>
   <style>
+    /* Styles pour le corps de la page */
     body {
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
@@ -10,6 +11,7 @@
       padding: 0;
     }
 
+    /* Styles pour le conteneur principal */
     .container {
       max-width: 800px;
       margin: 0 auto;
@@ -19,11 +21,13 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
+    /* Styles pour le titre */
     h1 {
       color: #333;
       text-align: center;
     }
 
+    /* Styles pour le tableau de données météorologiques */
     table {
       width: 100%;
       border-spacing: 0;
@@ -49,21 +53,22 @@
       color: #fff;
     }
 
+    /* Styles pour la date */
     .date {
       font-size: 80%;
     }
 
-    /* Styles pour le contenu horaire */
+    /* Styles pour les détails horaires (initialement cachés) */
     .hourly-details {
       display: none;
       background-color: #f9f9f9;
       padding: 10px;
     }
 
-    /* Style pour les images de conditions météo */
+    /* Styles pour les icônes de conditions météo */
     .weather-icon {
-      width: 60px; /* Double la taille des images */
-      height: 60px; /* Double la taille des images */
+      width: 60px;
+      height: 60px;
     }
   </style>
 </head>
@@ -71,7 +76,7 @@
   <div class="container">
     <h1>Météo Montpellier</h1>
     <table id="weather-table">
-      <!-- L'en-tête des colonnes sera inséré ici -->
+      <!-- En-tête des colonnes du tableau -->
       <thead>
         <tr>
           <th>Date</th>
@@ -82,35 +87,36 @@
           <th>Vent (km/h)</th>
         </tr>
       </thead>
-      <!-- Les données météo seront insérées ici -->
+      <!-- Données météorologiques seront insérées ici -->
       <tbody>
-        <!-- Les lignes pour les données seront générées dynamiquement ici -->
+        <!-- Lignes pour les données seront générées dynamiquement ici -->
       </tbody>
     </table>
     <div class="hourly-details" id="hourly-details">
-      <!-- Les données horaires seront insérées ici -->
+      <!-- Données horaires seront insérées ici -->
     </div>
-     <!-- Description de la méthodologie -->
+    <!-- Description de la méthodologie (peut être retirée si nécessaire) -->
     <div id="methodology-description">
       <h2>Méthodologie :</h2>
       <p>
-        Cette application présente la température maximale et minimale de chaque jour, la moyenne des précipitations et la moyenne de la vitesse du vent. De plus, en cliquant sur une ligne du tableau, vous accéderez aux informations horaires de la journée choisie. Si vous recliquez sur la même ligne, le tableau d'origine réapparaîtra. Les données sont collectées à partir d'une URL API. Les mises à jour automatiques des données sont effectuées quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
-
+        Cette application présente la température maximale et minimale de chaque jour, la moyenne des précipitations et la moyenne de la vitesse du vent. 
+De plus, en cliquant sur une ligne du tableau, vous accéderez aux informations horaires de la journée choisie. Si vous recliquez sur la même ligne, le 
+tableau d'origine réapparaîtra. Les données sont collectées à partir d'une URL API. Les mises à jour automatiques des données sont effectuées 
+quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
       </p>
     </div>
   </div>
-     
 
   <script>
     let selectedRow = null; // Variable pour suivre la ligne actuellement sélectionnée
 
-    // Obtenir le nom du jour de la semaine associé à la date
+    // Fonction pour obtenir le nom du jour de la semaine associé à la date
     function getDayOfWeek(date) {
       const daysOfWeek = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
       return daysOfWeek[date.getDay()];
     }
 
-    // Afficher les données horaires lorsque la ligne est cliquée
+    // Fonction pour afficher les données horaires lorsque la ligne est cliquée
     function showHourlyDetails(date, hourlyData) {
       const hourlyDetails = document.querySelector('#hourly-details');
       hourlyDetails.innerHTML = ''; // Effacer le contenu actuel
@@ -161,7 +167,7 @@
       hourlyDetails.style.display = 'block';
     }
 
-    // Charger les données depuis le fichier JSON
+    // Fonction pour charger les données depuis le fichier JSON
     function loadWeatherData() {
       fetch('weather_data.json')
         .then(response => response.json())
@@ -214,7 +220,7 @@
 
             tbody.appendChild(dataRow);
 
-            // Ajoutez un gestionnaire d'événements pour chaque ligne de données
+            // Ajouter un gestionnaire d'événements pour chaque ligne de données
             dataRow.addEventListener('click', () => {
               if (selectedRow === dataRow) {
                 // Si la ligne actuellement sélectionnée est la même que celle cliquée à nouveau, réinitialisez la sélection
