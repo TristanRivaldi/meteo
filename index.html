@@ -76,17 +76,6 @@
   <div class="container">
     <h1>Météo Montpellier</h1>
     <table id="weather-table">
-      <!-- En-tête des colonnes du tableau -->
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Conditions Météo</th> <!-- Conditions météo en deuxième place -->
-          <th>Temp. Max (°C)</th>
-          <th>Temp. Min (°C)</th>
-          <th>Précip. (mm)</th>
-          <th>Vent (km/h)</th>
-        </tr>
-      </thead>
       <!-- Données météorologiques seront insérées ici -->
       <tbody>
         <!-- Lignes pour les données seront générées dynamiquement ici -->
@@ -100,9 +89,9 @@
       <h2>Méthodologie :</h2>
       <p>
         Cette application présente la température maximale et minimale de chaque jour, la moyenne des précipitations et la moyenne de la vitesse du vent. 
-De plus, en cliquant sur une ligne du tableau, vous accéderez aux informations horaires de la journée choisie. Si vous recliquez sur la même ligne, le 
-tableau d'origine réapparaîtra. Les données sont collectées à partir d'une URL API. Les mises à jour automatiques des données sont effectuées 
-quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
+        De plus, en cliquant sur une ligne du tableau, vous accéderez aux informations horaires de la journée choisie. Si vous recliquez sur la même ligne, le 
+        tableau d'origine réapparaîtra. Les données sont collectées à partir d'une URL API. Les mises à jour automatiques des données sont effectuées 
+        quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
       </p>
     </div>
   </div>
@@ -178,9 +167,9 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
 
           // Remplir les données
           const dates = Object.keys(data.daily_data);
+
           for (const date of dates) {
             const dayData = data.daily_data[date];
-            const dataRow = document.createElement('tr');
 
             // Obtenir le nom du jour de la semaine associé à la date
             const dateObj = new Date(date);
@@ -190,7 +179,13 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
             const options = { day: 'numeric', month: 'numeric' };
             const formattedDate = dateObj.toLocaleDateString('fr-FR', options);
 
-            dataRow.innerHTML = `<td>${dayOfWeek}<br><span class="date">${formattedDate}</span></td>`;
+            // Créer une ligne pour chaque date
+            const dateRow = document.createElement('tr');
+            dateRow.innerHTML = `<td>${dayOfWeek} ${formattedDate}<br><span class="date">${formattedDate}</span></td>`;
+            tbody.appendChild(dateRow);
+
+            // Créer une ligne pour chaque ensemble d'informations
+            const dataRow = document.createElement('tr');
 
             // Ajouter la colonne des conditions météo
             const weatherConditionCell = document.createElement('td');
@@ -220,9 +215,9 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
 
             tbody.appendChild(dataRow);
 
-            // Ajouter un gestionnaire d'événements pour chaque ligne de données
-            dataRow.addEventListener('click', () => {
-              if (selectedRow === dataRow) {
+            // Ajouter un gestionnaire d'événements pour chaque ligne de date
+            dateRow.addEventListener('click', () => {
+              if (selectedRow === dateRow) {
                 // Si la ligne actuellement sélectionnée est la même que celle cliquée à nouveau, réinitialisez la sélection
                 selectedRow.style.backgroundColor = '';
                 selectedRow = null;
@@ -234,8 +229,8 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
                 }
 
                 // Si la ligne actuellement sélectionnée est différente de la nouvelle ligne, afficher les détails horaires
-                selectedRow = dataRow;
-                dataRow.style.backgroundColor = '#3498db';
+                selectedRow = dateRow;
+                dateRow.style.backgroundColor = '#3498db';
                 const hourlyData = data.hourly_data[date];
                 showHourlyDetails(formattedDate, hourlyData);
               }
@@ -255,3 +250,4 @@ quotidiennement à 7h30. Pour plus de détails veuillez consulter le README.
   </script>
 </body>
 </html>
+
