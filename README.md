@@ -32,7 +32,7 @@ visuels pour indiquer les conditions météorologiques (il y a un nuage avec de 
 4. **Détails horaires :** Les utilisateurs ont la possibilité de consulter les détails horaires des conditions météorologiques pour une journée sélectionnée en cliquant sur la ligne correspondante. 
 Cela leur permet d'obtenir des informations plus précises sur les heures de la journée qui les intéressent.
 
-5. **Mises à jour automatiques :** Le projet est conçu pour se mettre à jour automatiquement chaque jour à 7h30, garantissant que les données sont toujours actuelles et précises.
+5. **Mises à jour automatiques :** Le projet est conçu pour se mettre à jour automatiquement chaque jour à 6h30, garantissant que les données sont toujours actuelles et précises.
 
 ## Application Web
 
