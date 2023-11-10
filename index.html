@@ -158,11 +158,14 @@
           const { temperature_2m, windspeed_10m, precipitation } = hourlyDataItem;
           let weatherIcon = 'soleil.svg';
 
-          if (precipitation > 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00')) {
+          if (precipitation === 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00')) {
+            weatherIcon = 'lune.svg';
+          } else if (precipitation > 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00')) {
+            weatherIcon = 'lune_n.svg';
+          } else if (precipitation > 0) {
             weatherIcon = 'nuage.svg';
-            if (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00') {
-              weatherIcon = 'lune_n.svg';
-            }
+          } else {
+            weatherIcon = 'soleil.svg';
           }
 
           hourlyRow.innerHTML = `
