@@ -80,7 +80,7 @@
       <thead>
         <tr>
           <th>Date</th>
-          <th>Conditions Météo</th> <!-- Conditions météo en deuxième place -->
+          <th>Conditions Météo</th>
           <th>Temp. Max (°C)</th>
           <th>Temp. Min (°C)</th>
           <th>Précip. (mm)</th>
@@ -156,17 +156,20 @@
 
         if (hourlyDataItem) {
           const { temperature_2m, windspeed_10m, precipitation } = hourlyDataItem;
+          let weatherIcon = 'soleil.svg';
 
-          let weatherIcon = 'lune.svg';
           if (precipitation > 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00')) {
-            weatherIcon = 'lune_n.svg';
+            weatherIcon = 'nuage.svg';
+            if (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00') {
+              weatherIcon = 'lune_n.svg';
+            }
           }
 
           hourlyRow.innerHTML = `
             <td>${formattedTime}</td>
             <td>${temperature_2m}°C</td>
             <td>${windspeed_10m} km/h</td>
-            <td>${precipitation.toFixed(1)} mm</td>
+            <td>${parseFloat(precipitation).toFixed(1)} mm</td>
             <td><img class="weather-icon" src="${weatherIcon}" alt="${precipitation > 0 ? 'Nuage avec de la pluie' : 'Soleil'}"></td>
           `;
         } else {
