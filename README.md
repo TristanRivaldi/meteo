@@ -20,7 +20,10 @@ Le projet comporte plusieurs composants et fonctionnalités essentielles :
 les précipitations et la vitesse du vent.
 
 2. **Traitement des données :** Les données horaires sont agrégées quotidiennement pour calculer la température maximale et minimale, la moyenne de la vitesse du vent et la somme des précipitations. 
-Ces informations sont ensuite stockées dans un fichier JSON (`weather_data.json`) pour une récupération et un affichage rapides.
+Ces informations sont ensuite stockées dans un fichier JSON (`weather_data.json`) pour une récupération et un affichage rapides.: Une fois les données enregistrées, le script (`update_forecast.py`) utilise Git pour :
+-Ajouter le fichier weather_data.json aux modifications suivantes (git add weather_data.json).
+-Faire un commit avec le message "Mise à jour des données météorologiques" (git commit -m 'Mise à jour des données météorologiques').
+-Pousser ces modifications vers la branche principale (git push origin main).
 
 3. **Affichage :** Les données sont présentées aux utilisateurs sur une page web. Les informations sont organisées dans un tableau, avec des symboles 
 visuels pour indiquer les conditions météorologiques (il y a un nuage avec de la pluie si des précipitations sont attendus dans la journées et un soleil si il n'y a pas de précipitation). Les images utilisées sont prises sur [freesvg.org](https://freesvg.org).
