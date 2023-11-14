@@ -142,8 +142,8 @@
       });
       thead.appendChild(headerRow);
 
-      // Heures à afficher
-      const hoursToDisplay = ['03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00', '00:00'];
+      // Heures à afficher (sans minuit)
+      const hoursToDisplay = ['03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
 
       // Remplir les données horaires
       for (const hourToDisplay of hoursToDisplay) {
@@ -158,9 +158,9 @@
           const { temperature_2m, windspeed_10m, precipitation } = hourlyDataItem;
           let weatherIcon = 'soleil.svg';
 
-          if (precipitation === 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00')) {
+          if (precipitation === 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00')) {
             weatherIcon = 'lune.svg';
-          } else if (precipitation > 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00' || hourToDisplay === '00:00')) {
+          } else if (precipitation > 0 && (hourToDisplay === '03:00' || hourToDisplay === '06:00' || hourToDisplay === '18:00' || hourToDisplay === '21:00')) {
             weatherIcon = 'lune_n.svg';
           } else if (precipitation > 0) {
             weatherIcon = 'nuage.svg';
